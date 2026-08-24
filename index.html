@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -239,6 +239,42 @@
     }
     .button.dark { background: var(--night); color: #fff; }
 
+    .hero-photo {
+      position: relative;
+      width: min(500px, 100%);
+      aspect-ratio: 4 / 5;
+      margin: auto;
+      overflow: hidden;
+      border: 0;
+      border-radius: 34px;
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 28px 70px rgba(0,0,0,.32);
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: scale(1.06);
+      transform-origin: center 42%;
+    }
+    .hero-photo figcaption {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 16px;
+      background: rgba(7,26,51,.76);
+      color: #fff;
+      font-size: .88rem;
+      font-weight: 850;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
     .constellation {
       position: relative;
       width: min(520px, 100%);
@@ -390,6 +426,44 @@
       color: var(--muted);
       font-weight: 950;
     }
+    .chapter-tools {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .section-speech {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 15px;
+      border: 1px solid #b8c8db;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--night);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .section-speech:hover { background: #eef6ff; }
+    .section-speech[aria-pressed="true"] {
+      border-color: var(--night);
+      background: var(--night);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(7,26,51,.2);
+    }
+    .closing .section-speech {
+      margin: 20px 0 6px;
+      border-color: rgba(255,255,255,.34);
+      background: rgba(255,255,255,.1);
+      color: #fff;
+    }
+    .closing .section-speech[aria-pressed="true"] {
+      border-color: var(--star);
+      background: var(--star);
+      color: var(--night);
+    }
     .story-card {
       overflow: hidden;
       border: 1px solid var(--line);
@@ -409,6 +483,18 @@
       font-weight: 750;
     }
     .story-copy p { margin: 18px 0 0; }
+    .speech-paragraph {
+      scroll-margin-top: 140px;
+      border-radius: 10px;
+      transition: background-color .2s ease, box-shadow .2s ease;
+    }
+    .speech-paragraph.speech-current {
+      background: #fff6c7;
+      box-shadow: 0 0 0 8px #fff6c7;
+    }
+    .speech-text.is-reading .story-card {
+      box-shadow: 0 0 0 4px rgba(255,212,95,.72), var(--shadow);
+    }
     .talk-line {
       margin-top: 26px;
       padding: 18px 20px;
@@ -433,12 +519,13 @@
       height: 100%;
       padding: 44px;
       display: grid;
-      align-content: center;
+      place-items: center;
       background:
         radial-gradient(circle at 62% 35%, rgba(255,212,95,.34), transparent 28%),
         radial-gradient(circle at 30% 75%, rgba(69,185,211,.18), transparent 32%),
         var(--night);
     }
+    .name-visual .constellation { width: min(440px, 100%); }
     .name-visual .big-star {
       width: 150px;
       aspect-ratio: 1;
@@ -855,6 +942,7 @@
       .header-tools { margin-left: auto; }
       .hero { min-height: auto; }
       .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { max-width: 460px; }
       .constellation { max-width: 460px; }
       .orientation { grid-template-columns: repeat(2, 1fr); }
       .story-card.split { grid-template-columns: 1fr; }
@@ -868,12 +956,15 @@
       .hero-inner { padding-top: 74px; }
       .hero-actions { display: grid; }
       .hero-actions .button { width: 100%; }
-      .constellation { margin-top: -30px; }
+      .hero-photo { margin-top: 12px; border-radius: 24px; }
+      .name-visual { min-height: 360px; padding: 20px; }
+      .name-visual .constellation { margin-top: 0; }
       .float-note { right: 4%; }
       .orientation { grid-template-columns: 1fr 1fr; }
       .orientation-item { padding: 15px; }
       .chapter { margin-top: 72px; scroll-margin-top: 138px; }
-      .chapter-heading { gap: 12px; }
+      .chapter-heading { grid-template-columns: auto 1fr; gap: 12px; }
+      .chapter-tools { grid-column: 1 / -1; justify-content: flex-start; }
       .chapter-number { width: 44px; border-radius: 14px; }
       .story-copy { padding: 26px 22px; }
       .visual-panel, .bass-photo { min-height: 340px; }
@@ -887,7 +978,7 @@
       .closing { padding: 42px 24px; }
     }
     @media print {
-      .site-header, .progress, .back-top, .hero-actions, .chapter-nav, .permalink, .toast { display: none !important; }
+      .site-header, .progress, .back-top, .hero-actions, .chapter-nav, .permalink, .section-speech, .toast { display: none !important; }
       .hero { min-height: 600px; break-after: page; }
       .chapter { break-before: page; margin-top: 0; padding-top: 24px; }
       .story-card, .closing { box-shadow: none; }
@@ -919,7 +1010,6 @@
       </nav>
       <div class="header-tools">
         <button class="icon-button" id="textToggle" type="button" aria-pressed="false" aria-label="切換大字分享模式" title="大字分享模式">字+</button>
-        <button class="icon-button" id="speechToggle" type="button" aria-pressed="false" aria-label="開始朗讀練習" title="朗讀練習">▶</button>
       </div>
     </div>
   </header>
@@ -933,18 +1023,12 @@
           <p class="hero-copy">大家好，我是 Pollux。這個暑假，我拉了低音提琴、練習電影配樂、組裝機器人，也和爸爸媽媽飛到了北海道。準備好跟我一起出發了嗎？</p>
           <div class="hero-actions">
             <a class="button" href="#my-name">開始我的分享 <span aria-hidden="true">↓</span></a>
-            <button class="button secondary" id="heroSpeech" type="button">聽聽講稿 <span aria-hidden="true">▶</span></button>
           </div>
         </div>
-        <div class="constellation" aria-label="Pollux 與 Castor 雙子星示意圖">
-          <div class="orbit"></div>
-          <div class="orbit"></div>
-          <div class="castor-star" aria-hidden="true"></div>
-          <span class="castor-label">Castor</span>
-          <span class="star-line" aria-hidden="true"></span>
-          <div class="pollux-star">Pollux</div>
-          <div class="float-note">Pollux 是雙子座中最亮的星，也是我英文名字的由來。</div>
-        </div>
+        <figure class="hero-photo">
+          <img src="assets/pollux-double-bass.jpg" alt="Pollux 穿著表演服，站在紅色低音提琴旁準備演奏。">
+          <figcaption>舞台上的我和 Double Bass</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -960,18 +1044,31 @@
         <div class="chapter-heading">
           <span class="chapter-number">01</span>
           <div><span class="chapter-kicker">Hello, everyone!</span><h2 id="my-name-title">我的名字來自一顆星</h2></div>
-          <button class="permalink" type="button" data-copy-link="#my-name" aria-label="複製我的名字章節連結" title="複製章節連結">#</button>
+          <div class="chapter-tools">
+            <button class="section-speech" type="button" data-audio="assets/audio/my-name.wav" data-section="#my-name" aria-pressed="false" aria-label="播放台灣中文朗讀：我的名字" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+            <button class="permalink" type="button" data-copy-link="#my-name" aria-label="複製我的名字章節連結" title="複製章節連結">#</button>
+          </div>
         </div>
         <div class="story-card split">
           <div class="story-copy">
-            <p class="lead">大家好，我是 Pollux，今年八歲。Pollux 中文叫作「北河三」，是雙子座中最明亮的一顆星。</p>
-            <p>在希臘神話裡，雙子座代表感情很好的兄弟 Castor 和 Pollux。故事中，Pollux 希望能一直和兄弟在一起，後來他們成為天空中的雙子座。</p>
-            <p>所以，我的名字不只代表一顆閃亮的星，也讓我想到勇敢、友愛和陪伴。我很喜歡這個特別的名字！<sup><a href="#ref-1" aria-label="參考資料 1">[1]</a></sup></p>
+            <p class="lead speech-paragraph">大家好，我是 Pollux，今年八歲。</p>
+            <p class="speech-paragraph">Pollux 中文叫作「北河三」，是雙子座中最明亮的一顆星。</p>
+            <p class="speech-paragraph">在希臘神話裡，雙子座代表感情很好的兄弟 Castor 和 Pollux。</p>
+            <p class="speech-paragraph">故事中，Pollux 希望能一直和兄弟在一起。後來，他們成為天空中的雙子座。</p>
+            <p class="speech-paragraph">所以，我的名字不只代表一顆閃亮的星，也讓我想到勇敢、友愛和陪伴。</p>
+            <p class="speech-paragraph">我很喜歡這個特別的名字！<sup><a href="#ref-1" aria-label="參考資料 1">[1]</a></sup></p>
             <div class="talk-line">分享小提示：說到「Pollux」時，可以抬頭指向天空，停一下再繼續說。</div>
           </div>
-          <div class="name-visual" aria-hidden="true">
-            <div class="big-star">Pollux</div>
-            <div class="twins"><div class="twin">Castor<br><small>雙子星</small></div><div class="twin">Pollux<br><small>雙子星</small></div></div>
+          <div class="name-visual">
+            <div class="constellation" role="img" aria-label="Pollux 與 Castor 雙子星示意圖">
+              <div class="orbit"></div>
+              <div class="orbit"></div>
+              <div class="castor-star" aria-hidden="true"></div>
+              <span class="castor-label">Castor</span>
+              <span class="star-line" aria-hidden="true"></span>
+              <div class="pollux-star">Pollux</div>
+              <div class="float-note">Pollux 是雙子座中最亮的星，也是我英文名字的由來。</div>
+            </div>
           </div>
         </div>
         <nav class="chapter-nav" aria-label="章節導覽"><a href="#top">← 回到開頭</a><a href="#double-bass">下一站：低音提琴 →</a></nav>
@@ -981,14 +1078,20 @@
         <div class="chapter-heading">
           <span class="chapter-number">02</span>
           <div><span class="chapter-kicker">Music time</span><h2 id="double-bass-title">我在弦樂團拉 Double Bass</h2></div>
-          <button class="permalink" type="button" data-copy-link="#double-bass" aria-label="複製低音提琴章節連結" title="複製章節連結">#</button>
+          <div class="chapter-tools">
+            <button class="section-speech" type="button" data-audio="assets/audio/double-bass.wav" data-section="#double-bass" aria-pressed="false" aria-label="播放台灣中文朗讀：低音提琴" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+            <button class="permalink" type="button" data-copy-link="#double-bass" aria-label="複製低音提琴章節連結" title="複製章節連結">#</button>
+          </div>
         </div>
         <div class="story-card split">
           <div class="bass-photo" role="img" aria-label="舞台上的低音提琴與譜架"></div>
           <div class="story-copy">
-            <p class="lead">我現在是博愛弦樂團的 Double Bass 團員。Double Bass 就是「低音提琴」。</p>
-            <p>低音提琴是弦樂團裡體積最大、聲音最低沉的樂器。因為它很大，演奏的時候通常要站著，或坐在高腳椅上。</p>
-            <p>弦樂團主要有四種樂器。每一種都有不同的聲音，合在一起，就像大家一起合作說一個音樂故事。<sup><a href="#ref-2" aria-label="參考資料 2">[2]</a></sup></p>
+            <p class="lead speech-paragraph">我現在是博愛弦樂團的 Double Bass 團員。</p>
+            <p class="speech-paragraph">Double Bass 就是「低音提琴」。</p>
+            <p class="speech-paragraph">低音提琴是弦樂團裡體積最大、聲音最低沉的樂器。</p>
+            <p class="speech-paragraph">因為它很大，演奏的時候通常要站著，或坐在高腳椅上。</p>
+            <p class="speech-paragraph">弦樂團主要有四種樂器：小提琴、中提琴、大提琴和低音提琴。</p>
+            <p class="speech-paragraph">每一種都有不同的聲音。合在一起，就像大家一起合作說一個音樂故事。<sup><a href="#ref-2" aria-label="參考資料 2">[2]</a></sup></p>
             <div class="instrument-family" aria-label="弦樂團四種主要樂器，由小到大排列">
               <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>小提琴</strong><small>高音・明亮</small></div>
               <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>中提琴</strong><small>溫暖・柔和</small></div>
@@ -1005,13 +1108,19 @@
         <div class="chapter-heading">
           <span class="chapter-number">03</span>
           <div><span class="chapter-kicker">All aboard!</span><h2 id="polar-express-title">我練了《北極特快車》</h2></div>
-          <button class="permalink" type="button" data-copy-link="#polar-express" aria-label="複製北極特快車章節連結" title="複製章節連結">#</button>
+          <div class="chapter-tools">
+            <button class="section-speech" type="button" data-audio="assets/audio/polar-express.wav" data-section="#polar-express" aria-pressed="false" aria-label="播放台灣中文朗讀：北極特快車" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+            <button class="permalink" type="button" data-copy-link="#polar-express" aria-label="複製北極特快車章節連結" title="複製章節連結">#</button>
+          </div>
         </div>
         <div class="story-card split">
           <div class="story-copy">
-            <p class="lead">暑假期間，我練習了電影《北極特快車》的主題曲。</p>
-            <p>這是一個充滿聖誕節氣氛、勇氣與想像力的故事。音樂有時輕快，有時很壯觀，讓我覺得自己好像真的搭上火車，往冰天雪地的北極前進。<sup><a href="#ref-3" aria-label="參考資料 3">[3]</a></sup></p>
-            <p>剛開始，有些節奏和指法很困難。我把困難的地方分成一小段、一小段，慢慢練習。當大家一起合奏時，我覺得很開心，也很有成就感。</p>
+            <p class="lead speech-paragraph">暑假期間，我練習了電影《北極特快車》的主題曲。</p>
+            <p class="speech-paragraph">這是一個充滿聖誕節氣氛、勇氣和想像力的故事。</p>
+            <p class="speech-paragraph">音樂有時輕快，有時很壯觀，讓我覺得自己好像真的搭上火車，往冰天雪地的北極前進。<sup><a href="#ref-3" aria-label="參考資料 3">[3]</a></sup></p>
+            <p class="speech-paragraph">剛開始，有些節奏和指法很困難。</p>
+            <p class="speech-paragraph">我把困難的地方分成一小段、一小段，慢慢練習。</p>
+            <p class="speech-paragraph">當大家一起合奏時，我覺得很開心，也很有成就感。</p>
             <div class="talk-line">我的練習方法：先放慢、再分段，最後才和大家一起合奏。</div>
           </div>
           <div class="train-scene" role="img" aria-label="北極夜空下，火車在雪地中行駛的插畫">
@@ -1026,21 +1135,27 @@
         <div class="chapter-heading">
           <span class="chapter-number">04</span>
           <div><span class="chapter-kicker">Build · Code · Try again</span><h2 id="robot-title">我自己組裝機器人</h2></div>
-          <button class="permalink" type="button" data-copy-link="#robot" aria-label="複製機器人章節連結" title="複製章節連結">#</button>
+          <div class="chapter-tools">
+            <button class="section-speech" type="button" data-audio="assets/audio/robot.wav" data-section="#robot" aria-pressed="false" aria-label="播放台灣中文朗讀：機器人" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+            <button class="permalink" type="button" data-copy-link="#robot" aria-label="複製機器人章節連結" title="複製章節連結">#</button>
+          </div>
         </div>
         <div class="story-card split">
           <div class="robot-lab" aria-label="一個會寫程式的可愛機器人插畫">
             <div class="robot" aria-hidden="true"><div class="antenna"></div><div class="robot-head"><i class="eye left"></i><i class="eye right"></i><i class="smile"></i></div><div class="arm left"></div><div class="arm right"></div><div class="robot-body"></div><div class="leg left"></div><div class="leg right"></div></div>
           </div>
           <div class="story-copy">
-            <p class="lead">我還上了機器人課。我先自己拼裝零件，再學習用程式語言控制它。</p>
-            <p>我可以告訴機器人往前走、轉彎，或完成指定的動作。寫程式就像是把清楚的指令，一步一步告訴機器人。</p>
+            <p class="lead speech-paragraph">我還上了機器人課。</p>
+            <p class="speech-paragraph">我先自己拼裝零件，再學習用程式語言控制它。</p>
+            <p class="speech-paragraph">我可以告訴機器人往前走、轉彎，或完成指定的動作。</p>
+            <p class="speech-paragraph">寫程式就像把清楚的指令，一步一步告訴機器人。</p>
             <div class="code-steps" aria-label="機器人學習的三個步驟">
               <div class="code-step">把機器人的零件拼起來</div>
               <div class="code-step">寫下動作的程式指令</div>
               <div class="code-step">測試、找問題、再修改</div>
             </div>
-            <p>有時候，機器人沒有照我的想法行動，我就檢查零件和程式，找到問題再重新試一次。這讓我學會耐心思考，也知道失敗一次沒有關係。</p>
+            <p class="speech-paragraph">有時候，機器人沒有照我的想法行動，我就檢查零件和程式，找到問題再試一次。</p>
+            <p class="speech-paragraph">這讓我學會耐心思考，也知道失敗一次沒有關係。</p>
             <div class="talk-line">每一次修改，都讓機器人更接近我想要的動作！</div>
           </div>
         </div>
@@ -1051,12 +1166,18 @@
         <div class="chapter-heading">
           <span class="chapter-number">05</span>
           <div><span class="chapter-kicker">Taiwan → Hokkaido</span><h2 id="hokkaido-title">爸爸媽媽帶我去北海道</h2></div>
-          <button class="permalink" type="button" data-copy-link="#hokkaido" aria-label="複製北海道旅行章節連結" title="複製章節連結">#</button>
+          <div class="chapter-tools">
+            <button class="section-speech" type="button" data-audio="assets/audio/hokkaido.wav" data-section="#hokkaido" aria-pressed="false" aria-label="播放台灣中文朗讀：北海道旅行" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+            <button class="permalink" type="button" data-copy-link="#hokkaido" aria-label="複製北海道旅行章節連結" title="複製章節連結">#</button>
+          </div>
         </div>
         <div class="story-card travel-card">
           <div class="story-copy">
-            <p class="lead">這個暑假，爸爸媽媽還帶我從台灣搭飛機去日本北海道。從熟悉的家出發，飛向北方，是我暑假裡很期待的一段旅程。</p>
-            <p>北海道的風景、天氣和台灣很不一樣。旅行的時候，我看見新的地方，也和爸爸媽媽一起留下了開心的回憶。對我來說，旅行就像打開一本真的地理課本：可以用眼睛看、用腳走，也可以用心記住。</p>
+            <p class="lead speech-paragraph">這個暑假，爸爸媽媽帶我從台灣搭飛機去日本北海道。</p>
+            <p class="speech-paragraph">從熟悉的家出發，飛向北方，是我暑假裡很期待的一段旅程。</p>
+            <p class="speech-paragraph">北海道的風景和天氣，跟台灣很不一樣。</p>
+            <p class="speech-paragraph">旅行的時候，我看見新的地方，也和爸爸媽媽一起留下開心的回憶。</p>
+            <p class="speech-paragraph">對我來說，旅行就像打開一本真的地理課本：可以用眼睛看、用腳走，也可以用心記住。</p>
             <div class="talk-line">地圖上的黃色航線，是台灣飛往北海道的方向示意。飛機一路向北，抵達日本北方的北海道。</div>
             <p><a class="button dark" href="summer-share.html">閱讀北海道救熊記 →</a></p>
           </div>
@@ -1076,8 +1197,10 @@
       <section class="closing speech-text" id="closing" data-title="我的暑假收穫" aria-labelledby="closing-title">
         <span class="chapter-kicker" style="color: var(--star)">My summer, my story</span>
         <h2 id="closing-title">像 Pollux 星星一樣，勇敢學習、努力發光</h2>
-        <p>這個暑假，我學習了音樂、低音提琴、機器人和程式，也和爸爸媽媽一起旅行。我不但學到新知識，還學會耐心、合作，以及遇到困難時再試一次。</p>
-        <p><strong>謝謝老師和同學聽我分享！</strong></p>
+        <button class="section-speech" type="button" data-audio="assets/audio/closing.wav" data-section="#closing" aria-pressed="false" aria-label="播放台灣中文朗讀：我的暑假收穫" title="美佳・台灣中文語音"><span aria-hidden="true">▶</span>朗讀這一段</button>
+        <p class="speech-paragraph">這個暑假，我學習了音樂、低音提琴、機器人和程式，也和爸爸媽媽一起旅行。</p>
+        <p class="speech-paragraph">我不但學到新知識，還學會耐心、合作，以及遇到困難時再試一次。</p>
+        <p class="speech-paragraph"><strong>謝謝老師和同學聽我分享！</strong></p>
         <a class="button" href="#top">再看一次 <span aria-hidden="true">↑</span></a>
       </section>
     </div>
@@ -1092,23 +1215,24 @@
       <li id="ref-3"><a href="https://www.youtube.com/watch?v=EeNzP7HdCoo" target="_blank" rel="noopener noreferrer">Warner Bros. Entertainment：《The Polar Express》官方影片介紹</a>（電影故事背景；查閱日期：2026-08-23）</li>
       <li id="ref-4"><a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/" target="_blank" rel="noopener noreferrer">Natural Earth：Admin 0 Countries 1:110m</a>（東亞地圖國界與海岸線；查閱日期：2026-08-24）</li>
     </ol>
-    <p><strong>媒體紀錄：</strong>低音提琴背景使用本專案素材 <code>assets/double-bass-study.png</code>；星空、火車與機器人以本頁 HTML／CSS／SVG 原生繪製；東亞地圖使用 Natural Earth 1:110m 地理資料製作成離線 SVG，閱讀時不需連線載入。</p>
+    <p><strong>媒體紀錄：</strong>首頁照片由 Pollux 家長提供，存為 <code>assets/pollux-double-bass.jpg</code>；六段朗讀使用 macOS 內建「Meijia／美佳」台灣中文語音製作成離線 WAV 音檔；低音提琴背景使用本專案素材 <code>assets/double-bass-study.png</code>；星空、火車與機器人以本頁 HTML／CSS／SVG 原生繪製；東亞地圖使用 Natural Earth 1:110m 地理資料製作成離線 SVG，閱讀時不需連線載入。</p>
   </section>
 
   <footer class="site-footer">Pollux 的暑假分享・離線多頁版 <a href="summer-share.html">北海道救熊記</a><a href="swimming-share.html">我和爺爺去游泳</a><a href="double-bass-review.html">Double Bass 圖像複習</a></footer>
   <button class="back-top" id="backTop" type="button" aria-label="回到頁面頂端">↑</button>
   <div class="toast" id="toast" role="status" aria-live="polite">已複製章節連結</div>
+  <audio id="sectionAudio" preload="metadata"></audio>
 
   <script>
     (() => {
       const progress = document.querySelector('.progress');
       const backTop = document.getElementById('backTop');
-      const sections = [...document.querySelectorAll('[data-title]')];
       const toast = document.getElementById('toast');
       const textToggle = document.getElementById('textToggle');
-      const speechToggle = document.getElementById('speechToggle');
-      const heroSpeech = document.getElementById('heroSpeech');
-      let speaking = false;
+      const sectionAudio = document.getElementById('sectionAudio');
+      const speechButtons = [...document.querySelectorAll('.section-speech')];
+      let activeSpeechButton = null;
+      let activeSpeechSection = null;
 
       function updateScrollUI() {
         const max = document.documentElement.scrollHeight - innerHeight;
@@ -1160,40 +1284,65 @@
         setTimeout(() => toast.classList.remove('show'), 1800);
       });
 
-      function stopSpeech() {
-        if ('speechSynthesis' in window) speechSynthesis.cancel();
-        speaking = false;
-        speechToggle.setAttribute('aria-pressed', 'false');
-        speechToggle.textContent = '▶';
-        heroSpeech.innerHTML = '聽聽講稿 <span aria-hidden="true">▶</span>';
+      function resetSpeechUI() {
+        speechButtons.forEach(button => {
+          button.setAttribute('aria-pressed', 'false');
+          button.innerHTML = '<span aria-hidden="true">▶</span>朗讀這一段';
+        });
+        activeSpeechSection?.classList.remove('is-reading');
+        activeSpeechButton = null;
+        activeSpeechSection = null;
       }
 
-      function startSpeech() {
-        if (!('speechSynthesis' in window)) {
-          toast.textContent = '這個瀏覽器不支援朗讀功能';
+      function stopSectionAudio() {
+        sectionAudio.pause();
+        sectionAudio.removeAttribute('src');
+        sectionAudio.load();
+        resetSpeechUI();
+      }
+
+      speechButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+          if (activeSpeechButton === button && !sectionAudio.paused) {
+            stopSectionAudio();
+            return;
+          }
+
+          stopSectionAudio();
+          activeSpeechButton = button;
+          activeSpeechSection = document.querySelector(button.dataset.section);
+          activeSpeechSection?.classList.add('is-reading');
+          button.setAttribute('aria-pressed', 'true');
+          button.innerHTML = '<span aria-hidden="true">■</span>停止朗讀';
+          sectionAudio.src = button.dataset.audio;
+
+          try {
+            await sectionAudio.play();
+            toast.textContent = '正在播放「美佳」台灣中文朗讀';
+          } catch {
+            stopSectionAudio();
+            toast.textContent = '音檔無法播放，請重新開啟頁面再試一次';
+          }
           toast.classList.add('show');
           setTimeout(() => toast.classList.remove('show'), 2200);
-          return;
-        }
-        if (speaking) { stopSpeech(); return; }
-        const fullText = sections.map(section => section.innerText.replace(/\[[0-9]+\]/g, '')).join('。');
-        const utterance = new SpeechSynthesisUtterance(fullText);
-        utterance.lang = 'zh-TW';
-        utterance.rate = .92;
-        utterance.pitch = 1.05;
-        utterance.onend = stopSpeech;
-        utterance.onerror = stopSpeech;
-        speechSynthesis.cancel();
-        speechSynthesis.speak(utterance);
-        speaking = true;
-        speechToggle.setAttribute('aria-pressed', 'true');
-        speechToggle.textContent = '■';
-        heroSpeech.innerHTML = '停止朗讀 <span aria-hidden="true">■</span>';
-      }
+        });
+      });
 
-      speechToggle.addEventListener('click', startSpeech);
-      heroSpeech.addEventListener('click', startSpeech);
-      addEventListener('pagehide', stopSpeech);
+      sectionAudio.addEventListener('ended', () => {
+        resetSpeechUI();
+        toast.textContent = '這一段朗讀完成';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
+      });
+      sectionAudio.addEventListener('error', () => {
+        if (!activeSpeechButton) return;
+        resetSpeechUI();
+        toast.textContent = '音檔載入失敗，請再試一次';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+
+      addEventListener('pagehide', stopSectionAudio);
       addEventListener('popstate', () => {
         if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
       });
