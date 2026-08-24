@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b3558">
+  <meta name="description" content="給八歲孩子使用的學習歷程寶藏盒，提供逐字右側注音、注音開關、學習故事與新增紀錄功能。">
+  <title>我的學習寶藏盒｜兒童注音版</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #0b3558;
+      --blue: #2368b2;
+      --ink: #18324a;
+      --muted: #5b7185;
+      --paper: #f2f8fb;
+      --surface: #ffffff;
+      --line: #d5e5ec;
+      --yellow: #ffd764;
+      --yellow-soft: #fff6cb;
+      --aqua: #67c8c2;
+      --aqua-soft: #e5f8f5;
+      --coral: #ff886f;
+      --shadow: 0 18px 48px rgba(11, 53, 88, .12);
+      --page: min(960px, calc(100% - 28px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255,215,100,.34), transparent 19rem),
+        var(--paper);
+      color: var(--ink);
+      font-family: ui-rounded, "SF Pro Rounded", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      line-height: 1.8;
+    }
+    button, input, textarea, a { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--blue); }
+    :focus-visible { outline: 4px solid var(--yellow); outline-offset: 4px; }
+
+    .skip-link {
+      position: fixed;
+      left: 12px;
+      top: -90px;
+      z-index: 100;
+      padding: 10px 15px;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(11,53,88,.96);
+      box-shadow: 0 8px 24px rgba(11,53,88,.15);
+    }
+    .header-inner {
+      width: var(--page);
+      min-height: 70px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-right: auto;
+      color: #fff;
+      font-weight: 950;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 36px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--navy);
+    }
+    .header-link,
+    .tool-button {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.36);
+      border-radius: 14px;
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .tool-button { background: #fff; color: var(--navy); }
+    #showLabel { display: none; }
+    body.zhuyin-off #hideLabel { display: none; }
+    body.zhuyin-off #showLabel { display: inline; }
+
+    .hero {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 30%, rgba(103,200,194,.3), transparent 20rem),
+        linear-gradient(145deg, var(--navy), #175a86);
+      color: #fff;
+    }
+    .hero-inner {
+      width: var(--page);
+      min-height: 470px;
+      margin: auto;
+      padding: 72px 0 90px;
+      display: grid;
+      grid-template-columns: 1fr .72fr;
+      gap: clamp(30px, 7vw, 72px);
+      align-items: center;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--yellow);
+      font-weight: 950;
+      letter-spacing: .08em;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 7vw, 4.9rem);
+      line-height: 1.18;
+      letter-spacing: -.055em;
+    }
+    .hero-copy {
+      max-width: 36rem;
+      margin: 20px 0 0;
+      color: rgba(255,255,255,.86);
+      font-size: clamp(1.08rem, 2.4vw, 1.32rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .button {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 950;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+    }
+    .button.secondary { background: #fff; }
+    .treasure {
+      position: relative;
+      min-height: 290px;
+      display: grid;
+      place-items: center;
+    }
+    .chest {
+      position: relative;
+      width: min(290px, 82vw);
+      aspect-ratio: 1.15;
+      border: 8px solid #7b4a22;
+      border-radius: 42% 42% 20px 20px;
+      background: linear-gradient(#f5a94a 0 38%, #d6772e 38%);
+      box-shadow: 0 28px 50px rgba(0,0,0,.24);
+    }
+    .chest::before {
+      content: "★";
+      position: absolute;
+      inset: 41% auto auto 50%;
+      width: 62px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      transform: translateX(-50%);
+      border: 6px solid #84501e;
+      border-radius: 16px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: 2rem;
+    }
+    .spark { position: absolute; color: var(--yellow); font-size: 2rem; }
+    .spark.one { top: 5%; left: 4%; }
+    .spark.two { top: 12%; right: 2%; font-size: 1.4rem; }
+    .spark.three { bottom: 9%; right: 9%; }
+
+    main { width: var(--page); margin: auto; }
+    .reading { font-size: clamp(1.18rem, 2.8vw, 1.45rem); line-height: 2.05; }
+    .section { padding: 76px 0 0; scroll-margin-top: 84px; }
+    .section-heading { max-width: 42rem; margin-bottom: 24px; }
+    .section-label { color: var(--blue); font-size: .85rem; font-weight: 950; letter-spacing: .08em; }
+    h2 { margin: 5px 0 8px; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.25; letter-spacing: -.045em; }
+    h3 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.35; }
+    p { margin: 10px 0 0; }
+    .muted { color: var(--muted); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .step {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .step-number {
+      width: 48px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: 1.15rem;
+      font-weight: 950;
+    }
+
+    .story-list { display: grid; gap: 18px; }
+    .story-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .story-side {
+      padding: 24px 18px;
+      background: var(--aqua-soft);
+      color: var(--navy);
+    }
+    .story-date { font-size: .82rem; font-weight: 900; }
+    .story-icon { display: block; margin-top: 18px; font-size: 2.8rem; line-height: 1; }
+    .story-main { padding: 24px; }
+    .story-points { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    .story-point {
+      padding: 14px 16px;
+      border-left: 4px solid var(--aqua);
+      border-radius: 12px;
+      background: #f7fbfc;
+    }
+    .story-point strong { display: block; color: var(--blue); }
+    .count-line { margin-bottom: 16px; color: var(--muted); font-weight: 800; }
+
+    .form-card {
+      padding: clamp(22px, 5vw, 38px);
+      border-radius: 28px;
+      background: var(--yellow-soft);
+      box-shadow: var(--shadow);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
+    label { display: grid; gap: 7px; color: var(--navy); font-weight: 900; }
+    label.wide { grid-column: 1 / -1; }
+    input, textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 13px;
+      border: 2px solid #d4c675;
+      border-radius: 13px;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea { min-height: 88px; resize: vertical; }
+    .form-help { color: #715b13; font-size: .9rem; }
+    .form-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+    .save-button { background: var(--navy); color: #fff; }
+
+    .adult-box {
+      margin: 72px 0 36px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+    }
+    .adult-box summary { padding: 18px 20px; color: var(--navy); font-weight: 950; cursor: pointer; }
+    .adult-content { padding: 0 20px 20px; color: var(--muted); font-size: 1rem; }
+    .adult-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+    .small-button {
+      min-height: 44px;
+      padding: 9px 13px;
+      border: 2px solid var(--blue);
+      border-radius: 13px;
+      background: #fff;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    footer {
+      margin-top: 54px;
+      padding: 30px 14px 46px;
+      background: var(--navy);
+      color: rgba(255,255,255,.76);
+      text-align: center;
+    }
+    footer a { color: #fff; font-weight: 900; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      z-index: 60;
+      transform: translate(-50%, 20px);
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 900;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .zhuyin-word { display: inline-flex; white-space: nowrap; vertical-align: middle; }
+    .zhuyin-pair { display: inline-flex; align-items: center; margin-inline-end: .045em; }
+    .hanzi { line-height: 1; }
+    .bopomofo {
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      font-size: .39em;
+      line-height: 1;
+      letter-spacing: .025em;
+      margin-inline-start: .075em;
+      color: #536b7c;
+    }
+    .hero .bopomofo,
+    .site-header .bopomofo,
+    footer .bopomofo { color: rgba(255,255,255,.76); }
+    body.zhuyin-off .bopomofo { display: none; }
+    body.zhuyin-off .zhuyin-pair { margin-inline-end: 0; }
+
+    @media (max-width: 760px) {
+      .header-inner { flex-wrap: wrap; padding: 9px 0; }
+      .brand { width: calc(100% - 102px); }
+      .header-link { order: 3; flex: 1; }
+      .hero-inner { grid-template-columns: 1fr; padding: 56px 0 70px; }
+      .treasure { min-height: 230px; }
+      .chest { width: min(240px, 76vw); }
+      .steps { grid-template-columns: 1fr; }
+      .story-card { grid-template-columns: 1fr; }
+      .story-side { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; }
+      .story-icon { margin-top: 0; }
+      .story-points, .form-grid { grid-template-columns: 1fr; }
+      label.wide { grid-column: auto; }
+    }
+    @media (max-width: 420px) {
+      :root { --page: min(100% - 20px, 960px); }
+      .header-inner { flex-wrap: nowrap; }
+      .brand-text { display: none; }
+      .brand { width: auto; }
+      .header-link { display: none; }
+      .tool-button { margin-left: auto; }
+      h1 { font-size: 2.65rem; }
+      .reading { font-size: 1.12rem; }
+      .story-main, .step { padding: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    @media print {
+      body { background: #fff; }
+      .site-header, .hero-actions, .form-card, .adult-box, .toast { display: none !important; }
+      .hero { color: var(--ink); background: #fff; }
+      .hero-inner { min-height: 0; padding: 24px 0; grid-template-columns: 1fr; }
+      .treasure { display: none; }
+      .hero-copy { color: var(--muted); }
+      .hero .bopomofo { color: #536b7c; }
+      .section { padding-top: 30px; break-inside: avoid; }
+      .step, .story-card { box-shadow: none; }
+      body.zhuyin-off .bopomofo { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand no-zhuyin" href="../index.html" aria-label="回到 Pollux 暑假故事首頁"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-text">Pollux 的暑假</span></a>
+      <a class="header-link" href="#stories">學習故事</a>
+      <a class="header-link" href="#add-story">新增紀錄</a>
+      <button class="tool-button" id="zhuyinToggle" type="button" aria-pressed="true" aria-label="關閉注音"><span id="hideLabel">關閉注音</span><span id="showLabel">顯示注音</span></button>
+    </div>
+  </header>
+
+  <div id="readingArea" class="reading">
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">小朋友閱讀版</p>
+          <h1 id="pageTitle">我的學習寶藏盒</h1>
+          <p class="hero-copy">把作品留下來，再說說我怎麼做、學會什麼。每一則紀錄，都是我努力長大的證明。</p>
+          <div class="hero-actions">
+            <a class="button" href="#stories">看看我的故事 ↓</a>
+            <button class="button secondary" type="button" id="printTop">列印學習故事</button>
+          </div>
+        </div>
+        <div class="treasure" role="img" aria-label="會發光的學習寶藏箱插圖">
+          <span class="spark one" aria-hidden="true">✦</span>
+          <span class="spark two" aria-hidden="true">★</span>
+          <span class="spark three" aria-hidden="true">✦</span>
+          <div class="chest" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <section class="section" aria-labelledby="stepsTitle">
+        <div class="section-heading">
+          <span class="section-label">先記住這三步</span>
+          <h2 id="stepsTitle">今天做三件事</h2>
+          <p class="muted">不用寫很多。把事情說清楚，就很棒了。</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <span class="step-number" aria-hidden="true">1</span>
+            <h3>保存作品</h3>
+            <p>照片、學習單、錄音或影片，都可以留下來。</p>
+          </article>
+          <article class="step">
+            <span class="step-number" aria-hidden="true">2</span>
+            <h3>說說過程</h3>
+            <p>我先做什麼？遇到什麼困難？後來怎麼修改？</p>
+          </article>
+          <article class="step">
+            <span class="step-number" aria-hidden="true">3</span>
+            <h3>想下一步</h3>
+            <p>下一次，我還想練習什麼？</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="stories" aria-labelledby="storiesTitle">
+        <div class="section-heading">
+          <span class="section-label">我的作品和回想</span>
+          <h2 id="storiesTitle">我的學習故事</h2>
+          <p class="muted">先看我做了什麼，再看我學會了什麼。</p>
+        </div>
+        <p class="count-line" id="storyCount" aria-live="polite"></p>
+        <div class="story-list" id="storyList"></div>
+      </section>
+
+      <section class="section" id="add-story" aria-labelledby="formTitle">
+        <div class="form-card">
+          <span class="section-label">換我來記錄</span>
+          <h2 id="formTitle">新增一則學習故事</h2>
+          <p class="form-help">不確定怎麼寫時，可以請爸爸、媽媽或老師陪你一起想。</p>
+          <form id="storyForm">
+            <div class="form-grid">
+              <label>故事標題
+                <input name="title" required maxlength="40" placeholder="例如：我第一次上台表演">
+              </label>
+              <label>日期
+                <input name="date" type="date" required>
+              </label>
+              <label class="wide">我做了什麼？
+                <textarea name="did" required maxlength="220" placeholder="用一、兩句話寫下過程。"></textarea>
+              </label>
+              <label class="wide">我學會了什麼？
+                <textarea name="learned" required maxlength="220" placeholder="可以寫新的發現，也可以寫解決困難的方法。"></textarea>
+              </label>
+              <label class="wide">下一次，我想怎麼做？
+                <textarea name="next" maxlength="180" placeholder="寫下一個小目標。"></textarea>
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="button save-button" type="submit">放進寶藏盒</button>
+              <span class="form-help">紀錄只會存在這台瀏覽器。</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <details class="adult-box">
+        <summary>給爸爸媽媽或老師</summary>
+        <div class="adult-content">
+          <p>這一頁保留孩子的原始作品、過程、反思和下一步。孩子新增的文字會先存在目前的瀏覽器；請定期下載備份。</p>
+          <p><strong>注音審閱狀態：</strong>ZHUYIN_REVIEW_PENDING。頁面讀音以教育部《國語辭典簡編本》為核對入口，但仍需要熟悉臺灣注音的成人逐句複核，尤其是多音字與輕聲。</p>
+          <p>孩子新輸入的文字不會自動猜讀音；未收錄的字會保留原文，不顯示注音。</p>
+          <p><a href="https://dict.concised.moe.edu.tw/" target="_blank" rel="noopener noreferrer">教育部《國語辭典簡編本》</a></p>
+          <div class="adult-actions">
+            <button class="small-button" id="exportBtn" type="button">下載資料備份</button>
+            <button class="small-button" id="printBtn" type="button">列印或存成 PDF</button>
+          </div>
+        </div>
+      </details>
+    </main>
+
+    <footer>Pollux 的學習寶藏盒・兒童注音版　<a href="../index.html">回到暑假首頁</a></footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <span class="visually-hidden" id="toggleStatus" aria-live="polite"></span>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const storageKey = "learningPortfolioEntries";
+      const baseEntries = [
+        {
+          id: "reading-map",
+          date: "2026-07-10",
+          icon: "📚",
+          title: "閱讀地圖：比較兩本故事書",
+          did: "我讀了兩本故事書，再把相同和不同的地方畫出來。",
+          learned: "我學會比較不是找誰比較好，而是找出每個選擇背後的原因。",
+          next: "下次我會在短文裡，放入一句故事中的話。"
+        },
+        {
+          id: "plant-log",
+          date: "2026-06-18",
+          icon: "🌱",
+          title: "陽台植物觀察",
+          did: "我連續十四天，在固定時間拍照，也記下日照、澆水和植物高度。",
+          learned: "我發現葉片顏色比高度更早改變。先想好要記什麼，資料才容易比較。",
+          next: "下次我要固定拍照角度，再加上一盆植物一起比較。"
+        },
+        {
+          id: "library-helper",
+          date: "2026-05-25",
+          icon: "📖",
+          title: "圖書館小志工",
+          did: "我幫忙把書放回正確位置，也陪小朋友讀故事。",
+          learned: "我學會先了解別人需要什麼，再用簡單的問題陪他們說故事。",
+          next: "下次我要準備簡單和進階兩種問題。"
+        }
+      ];
+
+      const readings = {
+        "一":"ㄧ", "丁":"ㄉㄧㄥ", "七":"ㄑㄧ", "三":"ㄙㄢ", "上":"ㄕㄤˋ", "下":"ㄒㄧㄚˋ", "不":"ㄅㄨˋ", "中":"ㄓㄨㄥ", "主":"ㄓㄨˇ", "也":"ㄧㄝˇ", "事":"ㄕˋ", "了":"˙ㄌㄜ", "二":"ㄦˋ", "什":"ㄕㄣˊ", "今":"ㄐㄧㄣ", "他":"ㄊㄚ", "以":"ㄧˇ", "件":"ㄐㄧㄢˋ", "休":"ㄒㄧㄡ", "但":"ㄉㄢˋ", "位":"ㄨㄟˋ", "作":"ㄗㄨㄛˋ", "你":"ㄋㄧˇ", "使":"ㄕˇ", "來":"ㄌㄞˊ", "保":"ㄅㄠˇ", "個":"˙ㄍㄜ", "們":"˙ㄇㄣ", "先":"ㄒㄧㄢ", "入":"ㄖㄨˋ", "兩":"ㄌㄧㄤˇ", "再":"ㄗㄞˋ", "出":"ㄔㄨ", "到":"ㄉㄠˋ", "則":"ㄗㄜˊ", "前":"ㄑㄧㄢˊ", "加":"ㄐㄧㄚ", "努":"ㄋㄨˇ", "十":"ㄕˊ", "印":"ㄧㄣˋ", "原":"ㄩㄢˊ", "去":"ㄑㄩˋ", "又":"ㄧㄡˋ", "反":"ㄈㄢˇ", "口":"ㄎㄡˇ", "只":"ㄓˇ", "可":"ㄎㄜˇ", "台":"ㄊㄞˊ", "同":"ㄊㄨㄥˊ", "向":"ㄒㄧㄤˋ", "告":"ㄍㄠˋ", "和":"ㄏㄢˋ", "哪":"ㄋㄚˇ", "問":"ㄨㄣˋ", "回":"ㄏㄨㄟˊ", "困":"ㄎㄨㄣˋ", "在":"ㄗㄞˋ", "地":"ㄉㄧˋ", "型":"ㄒㄧㄥˊ", "填":"ㄊㄧㄢˊ", "大":"ㄉㄚˋ", "天":"ㄊㄧㄢ", "好":"ㄏㄠˇ", "如":"ㄖㄨˊ", "媽":"ㄇㄚ", "字":"ㄗˋ", "存":"ㄘㄨㄣˊ", "孩":"ㄏㄞˊ", "它":"ㄊㄚ", "安":"ㄢ", "完":"ㄨㄢˊ", "定":"ㄉㄧㄥˋ", "寶":"ㄅㄠˇ", "容":"ㄖㄨㄥˊ", "對":"ㄉㄨㄟˋ", "小":"ㄒㄧㄠˇ", "就":"ㄐㄧㄡˋ", "工":"ㄍㄨㄥ", "已":"ㄧˇ", "幫":"ㄅㄤ", "年":"ㄋㄧㄢˊ", "度":"ㄉㄨˋ", "後":"ㄏㄡˋ", "從":"ㄘㄨㄥˊ", "想":"ㄒㄧㄤˇ", "成":"ㄔㄥˊ", "我":"ㄨㄛˇ", "或":"ㄏㄨㄛˋ", "才":"ㄘㄞˊ", "把":"ㄅㄚˇ", "找":"ㄓㄠˇ", "拍":"ㄆㄞ", "放":"ㄈㄤˋ", "改":"ㄍㄞˇ", "故":"ㄍㄨˋ", "教":"ㄐㄧㄠˋ", "數":"ㄕㄨˋ", "文":"ㄨㄣˊ", "新":"ㄒㄧㄣ", "方":"ㄈㄤ", "明":"ㄇㄧㄥˊ", "易":"ㄧˋ", "是":"ㄕˋ", "時":"ㄕˊ", "書":"ㄕㄨ", "會":"ㄏㄨㄟˋ", "更":"ㄍㄥˋ", "有":"ㄧㄡˇ", "朋":"ㄆㄥˊ", "服":"ㄈㄨˊ", "本":"ㄅㄣˇ", "材":"ㄘㄞˊ", "格":"ㄍㄜˊ", "標":"ㄅㄧㄠ", "樣":"ㄧㄤˋ", "次":"ㄘˋ", "正":"ㄓㄥˋ", "每":"ㄇㄟˇ", "比":"ㄅㄧˇ", "水":"ㄕㄨㄟˇ", "法":"ㄈㄚˇ", "澆":"ㄐㄧㄠ", "照":"ㄓㄠˋ", "爸":"ㄅㄚˋ", "片":"ㄆㄧㄢˋ", "版":"ㄅㄢˇ", "物":"ㄨˋ", "現":"ㄒㄧㄢˋ", "用":"ㄩㄥˋ", "的":"˙ㄉㄜ", "盒":"ㄏㄜˊ", "相":"ㄒㄧㄤ", "看":"ㄎㄢˋ", "真":"ㄓㄣ", "知":"ㄓ", "短":"ㄉㄨㄢˇ", "確":"ㄑㄩㄝˋ", "種":"ㄓㄨㄥˇ", "第":"ㄉㄧˋ", "簡":"ㄐㄧㄢˇ", "精":"ㄐㄧㄥ", "紀":"ㄐㄧˋ", "結":"ㄐㄧㄝˊ", "續":"ㄒㄩˋ", "習":"ㄒㄧˊ", "者":"ㄓㄜˇ", "而":"ㄦˊ", "能":"ㄋㄥˊ", "自":"ㄗˋ", "臺":"ㄊㄞˊ", "與":"ㄩˇ", "舊":"ㄐㄧㄡˋ", "色":"ㄙㄜˋ", "著":"˙ㄓㄜ", "處":"ㄔㄨˇ", "號":"ㄏㄠˋ", "行":"ㄒㄧㄥˊ", "要":"ㄧㄠˋ", "見":"ㄐㄧㄢˋ", "解":"ㄐㄧㄝˇ", "記":"ㄐㄧˋ", "話":"ㄏㄨㄚˋ", "說":"ㄕㄨㄛ", "請":"ㄑㄧㄥˇ", "讀":"ㄉㄨˊ", "調":"ㄊㄧㄠˊ", "資":"ㄗ", "較":"ㄐㄧㄠˋ", "輕":"ㄑㄧㄥ", "輸":"ㄕㄨ", "進":"ㄐㄧㄣˋ", "連":"ㄌㄧㄢˊ", "過":"ㄍㄨㄛˋ", "還":"ㄏㄞˊ", "都":"ㄉㄡ", "錄":"ㄌㄨˋ", "長":"ㄓㄤˇ", "開":"ㄎㄞ", "關":"ㄍㄨㄢ", "閱":"ㄩㄝˋ", "陽":"ㄧㄤˊ", "階":"ㄐㄧㄝ", "難":"ㄋㄢˊ", "音":"ㄧㄣ", "顯":"ㄒㄧㄢˇ", "題":"ㄊㄧˊ", "首":"ㄕㄡˇ", "高":"ㄍㄠ", "點":"ㄉㄧㄢˇ", "麼":"˙ㄇㄜ", "得":"˙ㄉㄜ", "影":"ㄧㄥˇ", "力":"ㄌㄧˋ", "留":"ㄌㄧㄡˊ", "學":"ㄒㄩㄝˊ", "歷":"ㄌㄧˋ", "程":"ㄔㄥˊ", "藏":"ㄘㄤˊ", "箱":"ㄒㄧㄤ", "觀":"ㄍㄨㄢ", "察":"ㄔㄚˊ", "葉":"ㄧㄝˋ", "早":"ㄗㄠˇ", "變":"ㄅㄧㄢˋ", "盆":"ㄆㄣˊ", "植":"ㄓˊ", "志":"ㄓˋ", "圖":"ㄊㄨˊ", "館":"ㄍㄨㄢˇ", "置":"ㄓˋ", "需":"ㄒㄩ", "陪":"ㄆㄟˊ", "證":"ㄓㄥˋ", "據":"ㄐㄩˋ", "核":"ㄏㄜˊ", "複":"ㄈㄨˋ", "尤":"ㄧㄡˊ", "其":"ㄑㄧˊ", "多":"ㄉㄨㄛ", "聲":"ㄕㄥ", "狀":"ㄓㄨㄤˋ", "態":"ㄊㄞˋ", "待":"ㄉㄞˋ", "家":"ㄐㄧㄚ", "師":"ㄕ", "辭":"ㄘˊ", "典":"ㄉㄧㄢˇ", "編":"ㄅㄧㄢ", "依":"ㄧ", "熟":"ㄕㄨˊ", "悉":"ㄒㄧ", "逐":"ㄓㄨˊ", "句":"ㄐㄩˋ", "目":"ㄇㄨˋ", "由":"ㄧㄡˊ", "瀏":"ㄌㄧㄡˊ", "覽":"ㄌㄢˇ", "器":"ㄑㄧˋ", "份":"ㄈㄣˋ", "載":"ㄗㄞˋ", "備":"ㄅㄟˋ", "列":"ㄌㄧㄝˋ",
+        "人":"ㄖㄣˊ", "仍":"ㄖㄥˊ", "住":"ㄓㄨˋ", "例":"ㄌㄧˋ", "供":"ㄍㄨㄥ", "修":"ㄒㄧㄡ", "假":"ㄐㄧㄚˋ", "做":"ㄗㄨㄛˋ", "側":"ㄘㄜˋ", "光":"ㄍㄨㄤ", "兒":"ㄦˊ", "內":"ㄋㄟˋ", "八":"ㄅㄚ", "共":"ㄍㄨㄥˋ", "別":"ㄅㄧㄝˊ", "功":"ㄍㄨㄥ", "友":"ㄧㄡˇ", "右":"ㄧㄡˋ", "品":"ㄆㄧㄣˇ", "單":"ㄉㄢ", "四":"ㄙˋ", "因":"ㄧㄣ", "固":"ㄍㄨˋ", "國":"ㄍㄨㄛˊ", "增":"ㄗㄥ", "始":"ㄕˇ", "子":"ㄗˇ", "審":"ㄕㄣˇ", "寫":"ㄒㄧㄝˇ", "很":"ㄏㄣˇ", "忙":"ㄇㄤˊ", "怎":"ㄗㄣˇ", "思":"ㄙ", "情":"ㄑㄧㄥˊ", "慢":"ㄇㄢˋ", "提":"ㄊㄧˊ", "插":"ㄔㄚ", "換":"ㄏㄨㄢˋ", "擇":"ㄗㄜˊ", "料":"ㄌㄧㄠˋ", "日":"ㄖˋ", "暑":"ㄕㄨˇ", "期":"ㄑㄧˊ", "棒":"ㄅㄤˋ", "楚":"ㄔㄨˇ", "樂":"ㄌㄜˋ", "步":"ㄅㄨˋ", "歲":"ㄙㄨㄟˋ", "決":"ㄐㄩㄝˊ", "注":"ㄓㄨˋ", "清":"ㄑㄧㄥ", "準":"ㄓㄨㄣˇ", "演":"ㄧㄢˇ", "灣":"ㄨㄢ", "為":"ㄨㄟˊ", "畫":"ㄏㄨㄚˋ", "發":"ㄈㄚ", "示":"ㄕˋ", "童":"ㄊㄨㄥˊ", "給":"ㄍㄟˇ", "經":"ㄐㄧㄥ", "練":"ㄌㄧㄢˋ", "老":"ㄌㄠˇ", "育":"ㄩˋ", "背":"ㄅㄟˋ", "表":"ㄅㄧㄠˇ", "補":"ㄅㄨˇ", "裡":"ㄌㄧˇ", "角":"ㄐㄧㄠˇ", "語":"ㄩˇ", "誰":"ㄕㄟˊ", "起":"ㄑㄧˇ", "跳":"ㄊㄧㄠˋ", "這":"ㄓㄜˋ", "遇":"ㄩˋ", "選":"ㄒㄩㄢˇ", "部":"ㄅㄨˋ", "重":"ㄓㄨㄥˋ", "銀":"ㄧㄣˊ", "閉":"ㄅㄧˋ", "間":"ㄐㄧㄢ", "面":"ㄇㄧㄢˋ", "頁":"ㄧㄝˋ", "顏":"ㄧㄢˊ", "測":"ㄘㄜˋ", "試":"ㄕˋ", "按":"ㄢˋ", "鈕":"ㄋㄧㄡˇ", "檢":"ㄐㄧㄢˇ", "查":"ㄔㄚˊ", "動":"ㄉㄨㄥˋ", "猜":"ㄘㄞ", "未":"ㄨㄟˋ", "收":"ㄕㄡ"
+      };
+
+      const isHan = char => /[\u3400-\u9fff\uf900-\ufaff]/u.test(char);
+      const fourthTone = reading => /ˋ$/.test(reading || "");
+
+      function readingFor(char, text, index) {
+        const before = text[index - 1] || "";
+        const after = text[index + 1] || "";
+        if (char === "一") {
+          const nextReading = readings[after];
+          if (!nextReading || !isHan(after)) return "ㄧ";
+          return fourthTone(nextReading) ? "ㄧˊ" : "ㄧˋ";
+        }
+        if (char === "不") return fourthTone(readings[after]) ? "ㄅㄨˊ" : "ㄅㄨˋ";
+        if (char === "長") return text.includes("長期") ? "ㄔㄤˊ" : "ㄓㄤˇ";
+        if (char === "行") return text.includes("銀行") ? "ㄏㄤˊ" : "ㄒㄧㄥˊ";
+        if (char === "重") return text.includes("重新") ? "ㄔㄨㄥˊ" : "ㄓㄨㄥˋ";
+        if (char === "教") return text.includes("教你") ? "ㄐㄧㄠ" : "ㄐㄧㄠˋ";
+        if (char === "為") return text.includes("因為") ? "ㄨㄟˋ" : "ㄨㄟˊ";
+        if (char === "樂") return text.includes("音樂") ? "ㄩㄝˋ" : "ㄌㄜˋ";
+        if (char === "了" && after === "解") return "ㄌㄧㄠˇ";
+        if (char === "地" && before && after && text.includes("慢慢地")) return "˙ㄉㄜ";
+        if (char === "爸" && before === "爸") return "˙ㄅㄚ";
+        if (char === "媽" && before === "媽") return "˙ㄇㄚ";
+        return readings[char] || "";
+      }
+
+      function createAnnotatedRun(text) {
+        const word = document.createElement("span");
+        word.className = "zhuyin-word";
+        word.setAttribute("aria-label", text);
+        Array.from(text).forEach((char, index) => {
+          if (!isHan(char)) {
+            const plain = document.createElement("span");
+            plain.setAttribute("aria-hidden", "true");
+            plain.textContent = char;
+            word.appendChild(plain);
+            return;
+          }
+          const reading = readingFor(char, text, index);
+          if (!reading) {
+            const plain = document.createElement("span");
+            plain.className = "hanzi";
+            plain.setAttribute("aria-hidden", "true");
+            plain.textContent = char;
+            word.appendChild(plain);
+            return;
+          }
+          const pair = document.createElement("span");
+          pair.className = "zhuyin-pair";
+          pair.setAttribute("aria-hidden", "true");
+          const hanzi = document.createElement("span");
+          hanzi.className = "hanzi";
+          hanzi.textContent = char;
+          const bopomofo = document.createElement("span");
+          bopomofo.className = "bopomofo";
+          bopomofo.textContent = reading;
+          pair.append(hanzi, bopomofo);
+          word.appendChild(pair);
+        });
+        return word;
+      }
+
+      const wordSegmenter = typeof Intl.Segmenter === "function" ? new Intl.Segmenter("zh-TW", { granularity: "word" }) : null;
+
+      function splitHanRun(text) {
+        const words = wordSegmenter ? Array.from(wordSegmenter.segment(text), item => item.segment) : [text];
+        return words.flatMap(word => Array.from(word).length > 4 ? (word.match(/.{1,2}/gu) || [word]) : [word]);
+      }
+
+      function annotateTextNode(node) {
+        const text = node.nodeValue;
+        if (!text || !/[\u3400-\u9fff\uf900-\ufaff]/u.test(text)) return;
+        const fragment = document.createDocumentFragment();
+        const parts = text.split(/([\u3400-\u9fff\uf900-\ufaff]+)/u);
+        parts.forEach(part => {
+          if (!part) return;
+          if (/[\u3400-\u9fff\uf900-\ufaff]/u.test(part)) splitHanRun(part).forEach(word => fragment.appendChild(createAnnotatedRun(word)));
+          else fragment.appendChild(document.createTextNode(part));
+        });
+        node.replaceWith(fragment);
+      }
+
+      function annotateWithin(root) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            const parent = node.parentElement;
+            if (!parent || parent.closest("script, style, input, textarea, option, .no-zhuyin, .bopomofo, .zhuyin-word, .visually-hidden")) return NodeFilter.FILTER_REJECT;
+            return /[\u3400-\u9fff\uf900-\ufaff]/u.test(node.nodeValue || "") ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+          }
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(annotateTextNode);
+      }
+
+      function cleanStoredEntry(entry) {
+        return {
+          id: entry.id || `saved-${Date.now()}-${Math.random()}`,
+          date: entry.date || "",
+          icon: entry.icon || "⭐",
+          title: entry.title || "我的學習故事",
+          did: entry.did || entry.process || entry.context || "我留下了一件作品。",
+          learned: entry.learned || entry.reflection || "我正在想這次學會了什麼。",
+          next: entry.next || entry.nextStep || "下次再補上我的小目標。"
+        };
+      }
+
+      function loadSavedEntries() {
+        try {
+          const value = JSON.parse(localStorage.getItem(storageKey) || "[]");
+          return Array.isArray(value) ? value.map(cleanStoredEntry) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      let savedEntries = loadSavedEntries();
+      const storyList = document.querySelector("#storyList");
+      const storyCount = document.querySelector("#storyCount");
+      const toast = document.querySelector("#toast");
+      let toastTimer;
+
+      function addTextElement(tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        element.textContent = text;
+        return element;
+      }
+
+      function renderStories() {
+        const entries = [...savedEntries].reverse().concat(baseEntries);
+        storyList.replaceChildren();
+        entries.forEach(entry => {
+          const article = document.createElement("article");
+          article.className = "story-card";
+
+          const side = document.createElement("div");
+          side.className = "story-side";
+          side.append(addTextElement("span", "story-date no-zhuyin", entry.date), addTextElement("span", "story-icon", entry.icon));
+
+          const main = document.createElement("div");
+          main.className = "story-main";
+          main.appendChild(addTextElement("h3", "", entry.title));
+
+          const points = document.createElement("div");
+          points.className = "story-points";
+          [["我做了什麼", entry.did], ["我學會了什麼", entry.learned], ["下一步", entry.next]].forEach(([label, value]) => {
+            const point = document.createElement("div");
+            point.className = "story-point";
+            point.append(addTextElement("strong", "", label), addTextElement("span", "", value));
+            points.appendChild(point);
+          });
+          main.appendChild(points);
+          article.append(side, main);
+          storyList.appendChild(article);
+          annotateWithin(article);
+        });
+        storyCount.textContent = `寶藏盒裡共有 ${entries.length} 則學習故事。`;
+        annotateWithin(storyCount);
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      const form = document.querySelector("#storyForm");
+      form.date.value = new Date().toISOString().slice(0, 10);
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const values = new FormData(form);
+        savedEntries.push({
+          id: `local-${Date.now()}`,
+          date: String(values.get("date") || ""),
+          icon: "⭐",
+          title: String(values.get("title") || "").trim(),
+          did: String(values.get("did") || "").trim(),
+          learned: String(values.get("learned") || "").trim(),
+          next: String(values.get("next") || "").trim() || "下次再想一個小目標。"
+        });
+        localStorage.setItem(storageKey, JSON.stringify(savedEntries, null, 2));
+        form.reset();
+        form.date.value = new Date().toISOString().slice(0, 10);
+        renderStories();
+        showToast("已經放進學習寶藏盒！");
+        document.querySelector("#stories").scrollIntoView();
+      });
+
+      const zhuyinToggle = document.querySelector("#zhuyinToggle");
+      const toggleStatus = document.querySelector("#toggleStatus");
+      zhuyinToggle.addEventListener("click", () => {
+        const off = document.body.classList.toggle("zhuyin-off");
+        zhuyinToggle.setAttribute("aria-pressed", String(!off));
+        zhuyinToggle.setAttribute("aria-label", off ? "顯示注音" : "關閉注音");
+        toggleStatus.textContent = off ? "注音已關閉" : "注音已顯示";
+      });
+
+      document.querySelectorAll("#printTop, #printBtn").forEach(button => button.addEventListener("click", () => window.print()));
+      document.querySelector("#exportBtn").addEventListener("click", () => {
+        const payload = { exportedAt: new Date().toISOString(), entries: [...baseEntries, ...savedEntries] };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `pollux-learning-stories-${new Date().toISOString().slice(0, 10)}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.querySelector("#readingArea").addEventListener("copy", event => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+        const holder = document.createElement("div");
+        for (let index = 0; index < selection.rangeCount; index += 1) holder.appendChild(selection.getRangeAt(index).cloneContents());
+        holder.querySelectorAll(".bopomofo").forEach(node => node.remove());
+        event.clipboardData.setData("text/plain", holder.textContent || "");
+        event.preventDefault();
+      });
+
+      annotateWithin(document.querySelector("#readingArea"));
+      annotateWithin(document.querySelector(".site-header"));
+      renderStories();
+    })();
+  </script>
+</body>
+</html>
