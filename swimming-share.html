@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08375c">
+  <meta name="description" content="Pollux 分享和爺爺去游泳池，練習把頭放進水裡並學會短時間水中憋氣的故事。全頁附注音。">
+  <title>我和爺爺去游泳｜Pollux 暑期分享</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #082b49;
+      --navy-2: #0d4f75;
+      --ink: #14304a;
+      --muted: #5e7385;
+      --paper: #f1f8fa;
+      --surface: #fff;
+      --line: #d8e8ed;
+      --aqua: #51c4d8;
+      --aqua-light: #d9f5f7;
+      --yellow: #ffd66b;
+      --coral: #ff8f70;
+      --green: #48a985;
+      --shadow: 0 22px 58px rgba(8,43,73,.13);
+      --page: min(1100px, calc(100% - 36px));
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-rounded, "SF Pro Rounded", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 2.05;
+    }
+    a { color: #1768a0; }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    ruby { ruby-position: over; ruby-align: center; }
+    .ruby-run { display: inline; }
+    rt {
+      color: #536d7e;
+      font-size: .46em;
+      font-weight: 750;
+      letter-spacing: .035em;
+      line-height: 1;
+    }
+    .site-header rt, .hero rt, .script-card rt { color: rgba(255,255,255,.72); }
+    :focus-visible { outline: 4px solid var(--yellow); outline-offset: 4px; }
+    .skip-link {
+      position: fixed;
+      left: 14px;
+      top: -80px;
+      z-index: 100;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+    }
+    .skip-link:focus { top: 14px; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8,43,73,.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.13);
+    }
+    .header-inner {
+      width: var(--page);
+      min-height: 76px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 950;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 34px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--navy);
+    }
+    .site-nav {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .site-nav a {
+      padding: 12px 12px 8px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.77);
+      font-size: .84rem;
+      font-weight: 850;
+      line-height: 1.5;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .site-nav a:hover,
+    .site-nav a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.14); }
+    .hero {
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(81,196,216,.28), transparent 28%),
+        linear-gradient(140deg, var(--navy), var(--navy-2));
+    }
+    .hero-inner {
+      width: var(--page);
+      min-height: 670px;
+      margin: auto;
+      padding: 84px 0;
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: clamp(40px, 7vw, 84px);
+      align-items: center;
+    }
+    .eyebrow { margin: 0 0 16px; color: var(--yellow); font-weight: 950; letter-spacing: .06em; }
+    h1 {
+      margin: 0;
+      font-size: clamp(3.1rem, 7vw, 6rem);
+      line-height: 1.28;
+      letter-spacing: -.055em;
+    }
+    .hero-copy {
+      margin: 22px 0 0;
+      color: rgba(255,255,255,.85);
+      font-size: clamp(1.08rem, 2vw, 1.3rem);
+    }
+    .button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px 10px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 950;
+      line-height: 1.55;
+      text-decoration: none;
+    }
+    .button.secondary { background: #fff; }
+    .pool-scene {
+      overflow: hidden;
+      margin: 0;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 28px;
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 24px 60px rgba(0,0,0,.2);
+    }
+    .pool-scene svg { display: block; width: 100%; height: auto; }
+    main { width: var(--page); margin: auto; }
+    .orientation {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: -32px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--line);
+      box-shadow: var(--shadow);
+    }
+    .orientation div { padding: 22px 20px 16px; background: #fff; }
+    .orientation small { display: block; color: var(--muted); font-weight: 850; }
+    .orientation strong { display: block; margin-top: 2px; }
+    .section { margin-top: 88px; scroll-margin-top: 100px; }
+    .section-label { color: #14729e; font-size: .8rem; font-weight: 950; letter-spacing: .08em; }
+    h2 {
+      margin: 6px 0 0;
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      line-height: 1.35;
+      letter-spacing: -.045em;
+    }
+    .lead { max-width: 770px; margin: 17px 0 0; font-size: 1.18rem; font-weight: 760; }
+    .story-flow { display: grid; gap: 18px; margin-top: 34px; }
+    .story-step {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 22px;
+      align-items: center;
+      min-height: 146px;
+      padding: 24px 30px 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 12px 34px rgba(8,43,73,.07);
+    }
+    .step-icon {
+      width: 64px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: var(--aqua-light);
+      font-size: 2rem;
+    }
+    .story-step h3 { margin: 0; font-size: 1.3rem; line-height: 1.7; }
+    .story-step p { margin: 7px 0 0; color: var(--muted); }
+    .tip {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 34px;
+      align-items: center;
+      padding: clamp(30px, 5vw, 58px);
+      border-radius: 30px;
+      background: linear-gradient(135deg, #dff8fa, #c8eef5);
+      border: 1px solid #9cdce7;
+    }
+    .bubble {
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,.72);
+      text-align: center;
+      box-shadow: inset 0 0 0 16px rgba(255,255,255,.28);
+    }
+    .bubble span { font-size: 4rem; line-height: 1; }
+    .bubble strong { margin-top: 10px; font-size: 1.18rem; }
+    .tip p { margin: 18px 0 0; }
+    .tip-note {
+      padding: 17px 18px 13px;
+      border-left: 5px solid var(--aqua);
+      border-radius: 4px 16px 16px 4px;
+      background: #fff;
+      font-weight: 850;
+    }
+    .safety {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 30px;
+      align-items: center;
+      padding: clamp(30px, 5vw, 56px);
+      border-radius: 30px;
+      background: #fff7db;
+      border: 1px solid #f2d676;
+    }
+    .safety-mark {
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      border-radius: 24px;
+      background: var(--yellow);
+      text-align: center;
+    }
+    .safety-mark span { font-size: 4rem; line-height: 1; }
+    .safety-mark strong { margin-top: 12px; font-size: 1.2rem; }
+    .safety-list { margin: 20px 0 0; padding: 0; list-style: none; }
+    .safety-list li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      margin: 14px 0;
+      font-weight: 850;
+    }
+    .safety-list li::before {
+      content: "✓";
+      width: 30px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+    }
+    .adult-cue {
+      margin-top: 20px;
+      padding: 17px 18px 13px;
+      border-left: 5px solid var(--coral);
+      border-radius: 4px 16px 16px 4px;
+      background: #fff;
+      font-weight: 850;
+    }
+    .script-card {
+      padding: clamp(32px, 6vw, 64px);
+      border-radius: 30px;
+      background: linear-gradient(140deg, var(--navy), #126c8d);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .script-card .section-label { color: var(--yellow); }
+    .script-card p { max-width: 800px; margin: 24px 0 0; color: rgba(255,255,255,.86); font-size: 1.16rem; }
+    .script-card strong { color: #fff; }
+    .source {
+      margin: 70px 0 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .source a { font-weight: 850; }
+    footer { padding: 26px 18px 44px; color: var(--muted); text-align: center; font-size: .86rem; }
+    footer a { margin: 0 6px; }
+    @media (max-width: 880px) {
+      .header-inner { flex-wrap: wrap; padding: 10px 0; }
+      .site-nav { order: 3; width: 100%; margin-left: 0; padding-bottom: 2px; }
+      .hero-inner { min-height: auto; grid-template-columns: 1fr; padding: 70px 0 88px; }
+      .pool-scene { max-width: 650px; }
+      .tip, .safety { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      :root { --page: min(100% - 24px, 1100px); }
+      .brand span:last-child { display: none; }
+      .site-nav a { padding-inline: 10px; }
+      .hero-inner { padding-top: 50px; }
+      .button-row { display: grid; }
+      .orientation { grid-template-columns: 1fr; }
+      .orientation div { padding: 15px 18px 11px; }
+      .section { margin-top: 68px; scroll-margin-top: 148px; }
+      .story-step { grid-template-columns: 52px 1fr; gap: 14px; padding: 20px 18px 16px; }
+      .step-icon { width: 48px; border-radius: 15px; font-size: 1.45rem; }
+      .tip, .safety { padding: 24px 20px; }
+      .bubble, .safety-mark { min-height: 200px; }
+      rt { font-size: .43em; }
+    }
+    @media print {
+      .site-header, .button-row { display: none !important; }
+      .hero { color: var(--ink); background: #fff; }
+      .hero-inner { min-height: auto; padding: 22px 0; grid-template-columns: 1fr; }
+      .hero-copy { color: var(--ink); }
+      .orientation { margin-top: 15px; box-shadow: none; }
+      .section { margin-top: 34px; break-inside: avoid; }
+      .story-step, .script-card { box-shadow: none; }
+      .script-card { color: var(--ink); background: #fff; border: 2px solid var(--navy); }
+      .script-card .section-label, .script-card p, .script-card strong, .script-card rt { color: var(--ink); }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main" aria-label="跳到故事內容"><ruby>跳到故事內容<rt>ㄊㄧㄠˋ ㄉㄠˋ ㄍㄨˋ ㄕˋ ㄋㄟˋ ㄖㄨㄥˊ</rt></ruby></a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="回到 Pollux 暑假故事首頁"><span class="brand-mark" aria-hidden="true">✦</span><span>Pollux <ruby>的閃亮暑假<rt>ㄉㄜ˙ ㄕㄢˇ ㄌㄧㄤˋ ㄕㄨˇ ㄐㄧㄚˋ</rt></ruby></span></a>
+      <nav class="site-nav" aria-label="網站分頁">
+        <a href="index.html" aria-label="首頁"><ruby>首頁<rt>ㄕㄡˇ ㄧㄝˋ</rt></ruby></a>
+        <a href="summer-share.html" aria-label="救熊記"><ruby>救熊記<rt>ㄐㄧㄡˋ ㄒㄩㄥˊ ㄐㄧˋ</rt></ruby></a>
+        <a href="swimming-share.html" aria-current="page" aria-label="游泳故事"><ruby>游泳故事<rt>ㄧㄡˊ ㄩㄥˇ ㄍㄨˋ ㄕˋ</rt></ruby></a>
+        <a href="double-bass-review.html" aria-label="Double Bass">Double Bass</a>
+        <a href="learning-portfolio/index.html" aria-label="學習歷程"><ruby>學習歷程<rt>ㄒㄩㄝˊ ㄒㄧˊ ㄌㄧˋ ㄔㄥˊ</rt></ruby></a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Pollux・<ruby>暑期分享<rt>ㄕㄨˇ ㄑㄧˊ ㄈㄣ ㄒㄧㄤˇ</rt></ruby></p>
+        <h1 id="page-title"><ruby>我和爺爺<rt>ㄨㄛˇ ㄏㄢˋ ㄧㄝˊ ˙ㄧㄝ</rt></ruby><br><ruby>去游泳<rt>ㄑㄩˋ ㄧㄡˊ ㄩㄥˇ</rt></ruby></h1>
+        <p class="hero-copy"><ruby>我跟爺爺去游泳池游泳的時候，覺得很舒服。我還練習把頭放進水裡，學會短短地在水中憋氣。<rt>ㄨㄛˇ ㄍㄣ ㄧㄝˊ ˙ㄧㄝ ㄑㄩˋ ㄧㄡˊ ㄩㄥˇ ㄔˊ ㄧㄡˊ ㄩㄥˇ ㄉㄜ˙ ㄕˊ ㄏㄡˋ，ㄐㄩㄝˊ ㄉㄜ˙ ㄏㄣˇ ㄕㄨ ㄈㄨˊ。ㄨㄛˇ ㄏㄞˊ ㄌㄧㄢˋ ㄒㄧˊ ㄅㄚˇ ㄊㄡˊ ㄈㄤˋ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄌㄧˇ，ㄒㄩㄝˊ ㄏㄨㄟˋ ㄉㄨㄢˇ ㄉㄨㄢˇ ㄉㄜ˙ ㄗㄞˋ ㄕㄨㄟˇ ㄓㄨㄥ ㄅㄧㄝ ㄑㄧˋ。</rt></ruby></p>
+        <div class="button-row"><a class="button" href="#story" aria-label="故事開始"><ruby>故事開始<rt>ㄍㄨˋ ㄕˋ ㄎㄞ ㄕˇ</rt></ruby> ↓</a><button class="button secondary" type="button" onclick="window.print()" aria-label="列印分享稿"><ruby>列印分享稿<rt>ㄌㄧㄝˋ ㄧㄣˋ ㄈㄣ ㄒㄧㄤˇ ㄍㄠˇ</rt></ruby></button></div>
+      </div>
+      <figure class="pool-scene" aria-label="Pollux 在爺爺陪同下，於游泳池練習把臉放進水裡的示意圖">
+        <svg viewBox="0 0 720 520" role="img" aria-labelledby="pool-title pool-desc">
+          <title id="pool-title">Pollux 和爺爺在游泳池</title>
+          <desc id="pool-desc">爺爺在旁邊陪伴，Pollux 扶著池邊，把臉輕輕放進水裡，水面出現小氣泡。</desc>
+          <defs><linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#78d8e7"/><stop offset="1" stop-color="#238db9"/></linearGradient></defs>
+          <rect width="720" height="520" fill="#e7f7f8"/>
+          <g stroke="#cae4e8" stroke-width="3"><path d="M0 80H720M0 160H720M0 240H720"/><path d="M80 0V270M160 0V270M240 0V270M320 0V270M400 0V270M480 0V270M560 0V270M640 0V270"/></g>
+          <rect y="250" width="720" height="270" fill="url(#water)"/>
+          <path d="M0 278Q90 258 180 278T360 278T540 278T720 278" fill="none" stroke="#fff" stroke-width="8" opacity=".72"/>
+          <g transform="translate(172 222)">
+            <circle cx="0" cy="0" r="55" fill="#ffd1b5"/><path d="M-48-15Q0-78 48-15Q25-44 0-35Q-25-44-48-15" fill="#d8d9dc"/><circle cx="-17" cy="5" r="5" fill="#14304a"/><circle cx="17" cy="5" r="5" fill="#14304a"/><path d="M-15 27Q0 39 15 27" fill="none" stroke="#a55b54" stroke-width="5" stroke-linecap="round"/><path d="M-58 66Q0 36 58 66L72 180H-72Z" fill="#ff8f70"/><path d="M-52 91Q-112 117-133 155M52 91Q106 110 130 145" fill="none" stroke="#ffd1b5" stroke-width="20" stroke-linecap="round"/></g>
+          <g transform="translate(504 292)">
+            <circle cx="0" cy="0" r="48" fill="#ffd1b5"/><path d="M-45-7Q-15-55 30-29Q7-35-9-15Z" fill="#283c57"/><rect x="-49" y="-8" width="98" height="28" rx="14" fill="#2e5e87"/><circle cx="-20" cy="6" r="15" fill="#8ce5ec"/><circle cx="20" cy="6" r="15" fill="#8ce5ec"/><path d="M-60 55Q0 33 60 55L72 150H-72Z" fill="#ffd66b"/><path d="M-54 74Q-118 65-165 31" fill="none" stroke="#ffd1b5" stroke-width="18" stroke-linecap="round"/></g>
+          <g fill="#e8ffff" stroke="#fff" stroke-width="3"><circle cx="468" cy="236" r="9"/><circle cx="448" cy="211" r="7"/><circle cx="463" cy="187" r="5"/></g>
+          <path d="M350 190V470M365 190V470M345 205H410M345 250H410" stroke="#d7eef0" stroke-width="10"/>
+          <g fill="#fff" opacity=".8"><path d="M40 405q80-35 160 0t160 0t160 0t160 0v115H40z"/></g>
+        </svg>
+      </figure>
+    </div>
+  </section>
+
+  <main id="main">
+    <aside class="orientation" aria-label="故事重點">
+      <div><small><ruby>和誰一起<rt>ㄏㄢˋ ㄕㄟˊ ㄧˋ ㄑㄧˇ</rt></ruby></small><strong><ruby>我和爺爺<rt>ㄨㄛˇ ㄏㄢˋ ㄧㄝˊ ˙ㄧㄝ</rt></ruby></strong></div>
+      <div><small><ruby>我練習什麼<rt>ㄨㄛˇ ㄌㄧㄢˋ ㄒㄧˊ ㄕㄣˊ ˙ㄇㄜ</rt></ruby></small><strong><ruby>把頭放進水裡<rt>ㄅㄚˇ ㄊㄡˊ ㄈㄤˋ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄌㄧˇ</rt></ruby></strong></div>
+      <div><small><ruby>我學會什麼<rt>ㄨㄛˇ ㄒㄩㄝˊ ㄏㄨㄟˋ ㄕㄣˊ ˙ㄇㄜ</rt></ruby></small><strong><ruby>短短地水中憋氣<rt>ㄉㄨㄢˇ ㄉㄨㄢˇ ㄉㄜ˙ ㄕㄨㄟˇ ㄓㄨㄥ ㄅㄧㄝ ㄑㄧˋ</rt></ruby></strong></div>
+    </aside>
+
+    <section class="section" id="story" aria-labelledby="story-title">
+      <span class="section-label">MY SWIMMING STORY</span>
+      <h2 id="story-title"><ruby>我的游泳小故事<rt>ㄨㄛˇ ㄉㄜ˙ ㄧㄡˊ ㄩㄥˇ ㄒㄧㄠˇ ㄍㄨˋ ㄕˋ</rt></ruby></h2>
+      <p class="lead"><ruby>我把這次游泳的經過，分成三個步驟。<rt>ㄨㄛˇ ㄅㄚˇ ㄓㄜˋ ㄘˋ ㄧㄡˊ ㄩㄥˇ ㄉㄜ˙ ㄐㄧㄥ ㄍㄨㄛˋ，ㄈㄣ ㄔㄥˊ ㄙㄢ ㄍㄜ˙ ㄅㄨˋ ㄗㄡˋ。</rt></ruby></p>
+      <div class="story-flow">
+        <article class="story-step"><div class="step-icon" aria-hidden="true">🏊</div><div><h3><ruby>和爺爺一起下水<rt>ㄏㄢˋ ㄧㄝˊ ˙ㄧㄝ ㄧˋ ㄑㄧˇ ㄒㄧㄚˋ ㄕㄨㄟˇ</rt></ruby></h3><p><ruby>我跟爺爺去游泳池游泳。泡在水裡的時候，我覺得很舒服。<rt>ㄨㄛˇ ㄍㄣ ㄧㄝˊ ˙ㄧㄝ ㄑㄩˋ ㄧㄡˊ ㄩㄥˇ ㄔˊ ㄧㄡˊ ㄩㄥˇ。ㄆㄠˋ ㄗㄞˋ ㄕㄨㄟˇ ㄌㄧˇ ㄉㄜ˙ ㄕˊ ㄏㄡˋ，ㄨㄛˇ ㄐㄩㄝˊ ㄉㄜ˙ ㄏㄣˇ ㄕㄨ ㄈㄨˊ。</rt></ruby></p></div></article>
+        <article class="story-step"><div class="step-icon" aria-hidden="true">💧</div><div><h3><ruby>把頭輕輕放進水裡<rt>ㄅㄚˇ ㄊㄡˊ ㄑㄧㄥ ㄑㄧㄥ ㄈㄤˋ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄌㄧˇ</rt></ruby></h3><p><ruby>在爺爺陪同下，我吸一口氣，再把頭輕輕放進水裡，先練習短短一下。<rt>ㄗㄞˋ ㄧㄝˊ ˙ㄧㄝ ㄆㄟˊ ㄊㄨㄥˊ ㄒㄧㄚˋ，ㄨㄛˇ ㄒㄧ ㄧˋ ㄎㄡˇ ㄑㄧˋ，ㄗㄞˋ ㄅㄚˇ ㄊㄡˊ ㄑㄧㄥ ㄑㄧㄥ ㄈㄤˋ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄌㄧˇ，ㄒㄧㄢ ㄌㄧㄢˋ ㄒㄧˊ ㄉㄨㄢˇ ㄉㄨㄢˇ ㄧˊ ㄒㄧㄚˋ。</rt></ruby></p></div></article>
+        <article class="story-step"><div class="step-icon" aria-hidden="true">✨</div><div><h3><ruby>我學會在水中憋氣<rt>ㄨㄛˇ ㄒㄩㄝˊ ㄏㄨㄟˋ ㄗㄞˋ ㄕㄨㄟˇ ㄓㄨㄥ ㄅㄧㄝ ㄑㄧˋ</rt></ruby></h3><p><ruby>游完泳後，我發現自己已經會在水裡短短地憋氣了。我覺得很有成就感！<rt>ㄧㄡˊ ㄨㄢˊ ㄩㄥˇ ㄏㄡˋ，ㄨㄛˇ ㄈㄚ ㄒㄧㄢˋ ㄗˋ ㄐㄧˇ ㄧˇ ㄐㄧㄥ ㄏㄨㄟˋ ㄗㄞˋ ㄕㄨㄟˇ ㄌㄧˇ ㄉㄨㄢˇ ㄉㄨㄢˇ ㄉㄜ˙ ㄅㄧㄝ ㄑㄧˋ ㄌㄜ˙。ㄨㄛˇ ㄐㄩㄝˊ ㄉㄜ˙ ㄏㄣˇ ㄧㄡˇ ㄔㄥˊ ㄐㄧㄡˋ ㄍㄢˇ！</rt></ruby></p></div></article>
+      </div>
+    </section>
+
+    <section class="section tip" id="tip" aria-labelledby="tip-title">
+      <div class="bubble"><span aria-hidden="true">🫧</span><strong><ruby>讓腦袋安靜下來<rt>ㄖㄤˋ ㄋㄠˇ ㄉㄞˋ ㄢ ㄐㄧㄥˋ ㄒㄧㄚˋ ㄌㄞˊ</rt></ruby></strong></div>
+      <div>
+        <span class="section-label">MY LITTLE TIP</span>
+        <h2 id="tip-title"><ruby>我的小撇步：專心就好<rt>ㄨㄛˇ ㄉㄜ˙ ㄒㄧㄠˇ ㄆㄧㄝ ㄅㄨˋ：ㄓㄨㄢ ㄒㄧㄣ ㄐㄧㄡˋ ㄏㄠˇ</rt></ruby></h2>
+        <p><ruby>我在水裡的時候，不去想其他的事情，只專心感覺自己正在練習。這樣，我就不會那麼緊張。<rt>ㄨㄛˇ ㄗㄞˋ ㄕㄨㄟˇ ㄌㄧˇ ㄉㄜ˙ ㄕˊ ㄏㄡˋ，ㄅㄨˊ ㄑㄩˋ ㄒㄧㄤˇ ㄑㄧˊ ㄊㄚ ㄉㄜ˙ ㄕˋ ㄑㄧㄥˊ，ㄓˇ ㄓㄨㄢ ㄒㄧㄣ ㄍㄢˇ ㄐㄩㄝˊ ㄗˋ ㄐㄧˇ ㄓㄥˋ ㄗㄞˋ ㄌㄧㄢˋ ㄒㄧˊ。ㄓㄜˋ ㄧㄤˋ，ㄨㄛˇ ㄐㄧㄡˋ ㄅㄨˊ ㄏㄨㄟˋ ㄋㄚˋ ˙ㄇㄜ ㄐㄧㄣˇ ㄓㄤ。</rt></ruby></p>
+        <div class="tip-note"><ruby>這個小撇步是幫助我放鬆，不是用來比誰憋氣比較久。<rt>ㄓㄜˋ ㄍㄜ˙ ㄒㄧㄠˇ ㄆㄧㄝ ㄅㄨˋ ㄕˋ ㄅㄤ ㄓㄨˋ ㄨㄛˇ ㄈㄤˋ ㄙㄨㄥ，ㄅㄨˊ ㄕˋ ㄩㄥˋ ㄌㄞˊ ㄅㄧˇ ㄕㄟˊ ㄅㄧㄝ ㄑㄧˋ ㄅㄧˇ ㄐㄧㄠˋ ㄐㄧㄡˇ。</rt></ruby></div>
+      </div>
+    </section>
+
+    <section class="section safety" id="safety" aria-labelledby="safety-title">
+      <div class="safety-mark"><span aria-hidden="true">🛟</span><strong><ruby>開心玩水，也要安全<rt>ㄎㄞ ㄒㄧㄣ ㄨㄢˊ ㄕㄨㄟˇ，ㄧㄝˇ ㄧㄠˋ ㄢ ㄑㄩㄢˊ</rt></ruby></strong></div>
+      <div>
+        <span class="section-label">WATER SAFETY</span>
+        <h2 id="safety-title"><ruby>練習憋氣時，我會記住<rt>ㄌㄧㄢˋ ㄒㄧˊ ㄅㄧㄝ ㄑㄧˋ ㄕˊ，ㄨㄛˇ ㄏㄨㄟˋ ㄐㄧˋ ㄓㄨˋ</rt></ruby></h2>
+        <ul class="safety-list">
+          <li><ruby>一定要有爺爺、爸爸媽媽、老師或救生員陪同。<rt>ㄧˊ ㄉㄧㄥˋ ㄧㄠˋ ㄧㄡˇ ㄧㄝˊ ˙ㄧㄝ、ㄅㄚˋ ㄅㄚ˙ ㄇㄚ ㄇㄚ、ㄌㄠˇ ㄕ ㄏㄨㄛˋ ㄐㄧㄡˋ ㄕㄥ ㄩㄢˊ ㄆㄟˊ ㄊㄨㄥˊ。</rt></ruby></li>
+          <li><ruby>不和別人比賽憋氣，也不在水下憋很久。<rt>ㄅㄨˋ ㄏㄢˋ ㄅㄧㄝˊ ㄖㄣˊ ㄅㄧˇ ㄙㄞˋ ㄅㄧㄝ ㄑㄧˋ，ㄧㄝˇ ㄅㄨˊ ㄗㄞˋ ㄕㄨㄟˇ ㄒㄧㄚˋ ㄅㄧㄝ ㄏㄣˇ ㄐㄧㄡˇ。</rt></ruby></li>
+          <li><ruby>只要覺得不舒服，就立刻把頭抬起來。<rt>ㄓˇ ㄧㄠˋ ㄐㄩㄝˊ ㄉㄜ˙ ㄅㄨˋ ㄕㄨ ㄈㄨˊ，ㄐㄧㄡˋ ㄌㄧˋ ㄎㄜˋ ㄅㄚˇ ㄊㄡˊ ㄊㄞˊ ㄑㄧˇ ㄌㄞˊ。</rt></ruby></li>
+        </ul>
+        <div class="adult-cue"><ruby>游泳和憋氣都要照大人或游泳老師的指示練習，不可以自己偷偷試。<rt>ㄧㄡˊ ㄩㄥˇ ㄏㄢˋ ㄅㄧㄝ ㄑㄧˋ ㄉㄡ ㄧㄠˋ ㄓㄠˋ ㄉㄚˋ ㄖㄣˊ ㄏㄨㄛˋ ㄧㄡˊ ㄩㄥˇ ㄌㄠˇ ㄕ ㄉㄜ˙ ㄓˇ ㄕˋ ㄌㄧㄢˋ ㄒㄧˊ，ㄅㄨˋ ㄎㄜˇ ㄧˇ ㄗˋ ㄐㄧˇ ㄊㄡ ㄊㄡ ㄕˋ。</rt></ruby><sup><a href="#source-1" aria-label="參考資料 1">[1]</a></sup></div>
+      </div>
+    </section>
+
+    <section class="section script-card" id="script" aria-labelledby="script-title">
+      <span class="section-label"><ruby>一分鐘分享稿<rt>ㄧˊ ㄈㄣ ㄓㄨㄥ ㄈㄣ ㄒㄧㄤˇ ㄍㄠˇ</rt></ruby></span>
+      <h2 id="script-title"><ruby>我可以這樣說<rt>ㄨㄛˇ ㄎㄜˇ ㄧˇ ㄓㄜˋ ㄧㄤˋ ㄕㄨㄛ</rt></ruby></h2>
+      <p><strong><ruby>大家好，我是 Pollux。<rt>ㄉㄚˋ ㄐㄧㄚ ㄏㄠˇ，ㄨㄛˇ ㄕˋ Pollux。</rt></ruby></strong><ruby>暑假的時候，我和爺爺一起去游泳池游泳。泡在水裡時，我覺得很舒服。<rt>ㄕㄨˇ ㄐㄧㄚˋ ㄉㄜ˙ ㄕˊ ㄏㄡˋ，ㄨㄛˇ ㄏㄢˋ ㄧㄝˊ ˙ㄧㄝ ㄧˋ ㄑㄧˇ ㄑㄩˋ ㄧㄡˊ ㄩㄥˇ ㄔˊ ㄧㄡˊ ㄩㄥˇ。ㄆㄠˋ ㄗㄞˋ ㄕㄨㄟˇ ㄌㄧˇ ㄕˊ，ㄨㄛˇ ㄐㄩㄝˊ ㄉㄜ˙ ㄏㄣˇ ㄕㄨ ㄈㄨˊ。</rt></ruby></p>
+      <p><ruby>我還練習吸一口氣，再把頭輕輕放進水裡。練習之後，我學會短短地在水中憋氣。<rt>ㄨㄛˇ ㄏㄞˊ ㄌㄧㄢˋ ㄒㄧˊ ㄒㄧ ㄧˋ ㄎㄡˇ ㄑㄧˋ，ㄗㄞˋ ㄅㄚˇ ㄊㄡˊ ㄑㄧㄥ ㄑㄧㄥ ㄈㄤˋ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄌㄧˇ。ㄌㄧㄢˋ ㄒㄧˊ ㄓ ㄏㄡˋ，ㄨㄛˇ ㄒㄩㄝˊ ㄏㄨㄟˋ ㄉㄨㄢˇ ㄉㄨㄢˇ ㄉㄜ˙ ㄗㄞˋ ㄕㄨㄟˇ ㄓㄨㄥ ㄅㄧㄝ ㄑㄧˋ。</rt></ruby></p>
+      <p><ruby>我的小撇步是不要想其他的事情，只要專心、放鬆就好了。不過，憋氣不可以比賽，也不可以練很久，一定要有大人在旁邊。<rt>ㄨㄛˇ ㄉㄜ˙ ㄒㄧㄠˇ ㄆㄧㄝ ㄅㄨˋ ㄕˋ ㄅㄨˊ ㄧㄠˋ ㄒㄧㄤˇ ㄑㄧˊ ㄊㄚ ㄉㄜ˙ ㄕˋ ㄑㄧㄥˊ，ㄓˇ ㄧㄠˋ ㄓㄨㄢ ㄒㄧㄣ、ㄈㄤˋ ㄙㄨㄥ ㄐㄧㄡˋ ㄏㄠˇ ㄌㄜ˙。ㄅㄨˊ ㄍㄨㄛˋ，ㄅㄧㄝ ㄑㄧˋ ㄅㄨˋ ㄎㄜˇ ㄧˇ ㄅㄧˇ ㄙㄞˋ，ㄧㄝˇ ㄅㄨˋ ㄎㄜˇ ㄧˇ ㄌㄧㄢˋ ㄏㄣˇ ㄐㄧㄡˇ，ㄧˊ ㄉㄧㄥˋ ㄧㄠˋ ㄧㄡˇ ㄉㄚˋ ㄖㄣˊ ㄗㄞˋ ㄆㄤˊ ㄅㄧㄢ。</rt></ruby><strong><ruby>謝謝大家！<rt>ㄒㄧㄝˋ ㄒㄧㄝ˙ ㄉㄚˋ ㄐㄧㄚ！</rt></ruby></strong></p>
+      <div class="button-row"><button class="button" type="button" onclick="window.print()" aria-label="列印這份分享稿"><ruby>列印這份分享稿<rt>ㄌㄧㄝˋ ㄧㄣˋ ㄓㄜˋ ㄈㄣˋ ㄈㄣ ㄒㄧㄤˇ ㄍㄠˇ</rt></ruby></button><a class="button secondary" href="index.html" aria-label="回到首頁"><ruby>回到首頁<rt>ㄏㄨㄟˊ ㄉㄠˋ ㄕㄡˇ ㄧㄝˋ</rt></ruby></a></div>
+    </section>
+
+    <section class="source" id="sources" aria-labelledby="source-title">
+      <h2 id="source-title" style="font-size:1.35rem;letter-spacing:-.02em"><ruby>資料來源<rt>ㄗ ㄌㄧㄠˋ ㄌㄞˊ ㄩㄢˊ</rt></ruby></h2>
+      <p id="source-1">[1] <ruby>安全提醒參考<rt>ㄢ ㄑㄩㄢˊ ㄊㄧˊ ㄒㄧㄥˇ ㄘㄢ ㄎㄠˇ</rt></ruby>：<a href="https://www.cdc.gov/drowning/prevention/index.html" target="_blank" rel="noopener noreferrer">CDC〈Preventing Drowning〉</a>（<ruby>兒童接近水時需要大人持續看顧；不要在水下長時間憋氣<rt>ㄦˊ ㄊㄨㄥˊ ㄐㄧㄝ ㄐㄧㄣˋ ㄕㄨㄟˇ ㄕˊ ㄒㄩ ㄧㄠˋ ㄉㄚˋ ㄖㄣˊ ㄔˊ ㄒㄩˋ ㄎㄢ ㄍㄨˋ；ㄅㄨˊ ㄧㄠˋ ㄗㄞˋ ㄕㄨㄟˇ ㄒㄧㄚˋ ㄔㄤˊ ㄕˊ ㄐㄧㄢ ㄅㄧㄝ ㄑㄧˋ</rt></ruby>；<ruby>查閱日期<rt>ㄔㄚˊ ㄩㄝˋ ㄖˋ ㄑㄧˊ</rt></ruby>：2026-08-24）。<ruby>游泳經過為 Pollux 的親身經驗，由家長提供。<rt>ㄧㄡˊ ㄩㄥˇ ㄐㄧㄥ ㄍㄨㄛˋ ㄨㄟˊ Pollux ㄉㄜ˙ ㄑㄧㄣ ㄕㄣ ㄐㄧㄥ ㄧㄢˋ，ㄧㄡˊ ㄐㄧㄚ ㄓㄤˇ ㄊㄧˊ ㄍㄨㄥ。</rt></ruby></p>
+      <p><strong><ruby>媒體紀錄<rt>ㄇㄟˊ ㄊㄧˇ ㄐㄧˋ ㄌㄨˋ</rt></ruby>：</strong><ruby>游泳池示意圖為本頁內嵌圖形，不是現場照片；頁面不需連線即可閱讀。<rt>ㄧㄡˊ ㄩㄥˇ ㄔˊ ㄕˋ ㄧˋ ㄊㄨˊ ㄨㄟˊ ㄅㄣˇ ㄧㄝˋ ㄋㄟˋ ㄑㄧㄢˋ ㄊㄨˊ ㄒㄧㄥˊ，ㄅㄨˊ ㄕˋ ㄒㄧㄢˋ ㄔㄤˇ ㄓㄠˋ ㄆㄧㄢˋ；ㄧㄝˋ ㄇㄧㄢˋ ㄅㄨˋ ㄒㄩ ㄌㄧㄢˊ ㄒㄧㄢˋ ㄐㄧㄡˋ ㄎㄜˇ ㄧˇ ㄩㄝˋ ㄉㄨˊ。</rt></ruby></p>
+    </section>
+  </main>
+
+  <footer>Pollux <ruby>的暑假分享・離線多頁版<rt>ㄉㄜ˙ ㄕㄨˇ ㄐㄧㄚˋ ㄈㄣ ㄒㄧㄤˇ・ㄌㄧˊ ㄒㄧㄢˋ ㄉㄨㄛ ㄧㄝˋ ㄅㄢˇ</rt></ruby> <a href="index.html"><ruby>首頁<rt>ㄕㄡˇ ㄧㄝˋ</rt></ruby></a> <a href="summer-share.html"><ruby>救熊記<rt>ㄐㄧㄡˋ ㄒㄩㄥˊ ㄐㄧˋ</rt></ruby></a></footer>
+  <script>
+    (() => {
+      const fallbackSounds = {
+        '中':'ㄓㄨㄥ','憋':'ㄅㄧㄝ','氣':'ㄑㄧˋ','驟':'ㄗㄡˋ','舒':'ㄕㄨ','服':'ㄈㄨˊ','短':'ㄉㄨㄢˇ','一':'ㄧ','下':'ㄒㄧㄚˋ','就':'ㄐㄧㄡˋ','感':'ㄍㄢˇ','好':'ㄏㄠˇ','那':'ㄋㄚˋ','麼':'ㄇㄜ','緊':'ㄐㄧㄣˇ','張':'ㄓㄤ','久':'ㄐㄧㄡˇ','全':'ㄑㄩㄢˊ','住':'ㄓㄨˋ','陪':'ㄆㄟˊ','同':'ㄊㄨㄥˊ','來':'ㄌㄞˊ','試':'ㄕˋ','是':'ㄕˋ','很':'ㄏㄣˇ','有':'ㄧㄡˇ','大':'ㄉㄚˋ','人':'ㄖㄣˊ','在':'ㄗㄞˋ','旁':'ㄆㄤˊ','邊':'ㄅㄧㄢ','供':'ㄍㄨㄥ','讀':'ㄉㄨˊ','版':'ㄅㄢˇ'
+      };
+      document.querySelectorAll('ruby').forEach(group => {
+        const note = group.querySelector(':scope > rt');
+        if (!note) return;
+        const base = [...group.childNodes].filter(node => node !== note).map(node => node.textContent).join('');
+        const sounds = note.textContent.match(/˙?[ㄅ-ㄩ]+[ˊˇˋ˙]?/g) || [];
+        let soundIndex = 0;
+        const replacement = document.createElement('span');
+        replacement.className = 'ruby-run';
+        [...base].forEach(character => {
+          if (/\p{Script=Han}/u.test(character)) {
+            const unit = document.createElement('ruby');
+            const unitNote = document.createElement('rt');
+            unit.textContent = character;
+            unitNote.textContent = sounds[soundIndex] || fallbackSounds[character] || '';
+            unitNote.setAttribute('aria-hidden', 'true');
+            unit.appendChild(unitNote);
+            replacement.appendChild(unit);
+            soundIndex += 1;
+          } else {
+            replacement.appendChild(document.createTextNode(character));
+          }
+        });
+        group.replaceWith(replacement);
+      });
+    })();
+  </script>
+</body>
+</html>

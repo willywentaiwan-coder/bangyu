@@ -3,79 +3,1201 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pollux 的暑假作業收藏館，整理旅行、自然觀察與學習成果。">
-  <title>Pollux 暑假作業</title>
-  <link rel="stylesheet" href="home.css">
+  <meta name="theme-color" content="#071a33">
+  <meta name="description" content="八歲的 Pollux 分享英文名字、低音提琴、北極特快車、機器人與北海道旅行的暑假故事。">
+  <title>Pollux 的閃亮暑假｜自我介紹與暑假作業</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --night: #071a33;
+      --night-2: #0d2d4f;
+      --ink: #17233a;
+      --muted: #60708b;
+      --paper: #f5f7fb;
+      --surface: #ffffff;
+      --line: #dfe7f0;
+      --star: #ffd45f;
+      --orange: #ff8c61;
+      --sky: #45b9d3;
+      --blue: #3266d5;
+      --mint: #67c9aa;
+      --violet: #7d70e8;
+      --shadow: 0 22px 58px rgba(21, 43, 76, .13);
+      --radius: 28px;
+      --page: min(1160px, calc(100% - 36px));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-rounded, "SF Pro Rounded", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.75;
+    }
+    body.presentation-mode { font-size: 1.12rem; }
+    img, svg { display: block; max-width: 100%; }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--blue); }
+    :focus-visible { outline: 4px solid var(--star); outline-offset: 4px; }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -80px;
+      z-index: 100;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+      transition: top .2s ease;
+    }
+    .skip-link:focus { top: 16px; }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 90;
+      width: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--star), var(--orange), var(--sky));
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      background: rgba(7, 26, 51, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .header-inner {
+      width: var(--page);
+      min-height: 70px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 950;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand-star {
+      width: 32px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--night);
+      background: var(--star);
+      box-shadow: 0 0 24px rgba(255, 212, 95, .55);
+    }
+    .primary-nav {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .primary-nav a {
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.72);
+      font-size: .84rem;
+      font-weight: 850;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .primary-nav a:hover,
+    .primary-nav a[aria-current="page"] {
+      color: #fff;
+      background: rgba(255,255,255,.13);
+    }
+    .header-tools { display: flex; gap: 8px; }
+    .icon-button {
+      min-width: 42px;
+      min-height: 42px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(125,112,232,.28), transparent 28%),
+        radial-gradient(circle at 15% 85%, rgba(69,185,211,.2), transparent 30%),
+        linear-gradient(145deg, var(--night), var(--night-2));
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .68;
+      background-image:
+        radial-gradient(circle, #fff 0 1.3px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,255,255,.74) 0 1px, transparent 1.2px);
+      background-size: 120px 120px, 75px 75px;
+      background-position: 14px 26px, 48px 12px;
+    }
+    .hero::after {
+      opacity: .35;
+      transform: rotate(12deg) scale(1.15);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: var(--page);
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: clamp(36px, 7vw, 90px);
+      align-items: center;
+      padding: 92px 0 96px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--star);
+      font-weight: 950;
+      letter-spacing: .08em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 3px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 8.5vw, 7.8rem);
+      line-height: .92;
+      letter-spacing: -.055em;
+    }
+    h1 span {
+      display: block;
+      margin-top: 18px;
+      font-size: clamp(1.65rem, 3.5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -.03em;
+      color: #d8eaff;
+    }
+    .hero-copy {
+      max-width: 620px;
+      margin: 24px 0 0;
+      color: rgba(255,255,255,.78);
+      font-size: clamp(1.04rem, 2vw, 1.26rem);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 50px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--star);
+      color: var(--night);
+      font-weight: 950;
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(0,0,0,.18);
+    }
+    .button.secondary {
+      border: 1px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.09);
+      color: #fff;
+      box-shadow: none;
+    }
+    .button.dark { background: var(--night); color: #fff; }
+
+    .constellation {
+      position: relative;
+      width: min(520px, 100%);
+      aspect-ratio: 1;
+      margin: auto;
+    }
+    .orbit {
+      position: absolute;
+      inset: 9%;
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 50%;
+      transform: rotate(-16deg);
+    }
+    .orbit:nth-child(2) { inset: 21%; transform: rotate(28deg); }
+    .pollux-star {
+      position: absolute;
+      left: 52%;
+      top: 34%;
+      width: 26%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--night);
+      background: var(--star);
+      box-shadow: 0 0 24px #ffbd57, 0 0 88px rgba(255,181,81,.72), 0 0 160px rgba(255,141,97,.25);
+      font-size: clamp(1rem, 2.4vw, 1.45rem);
+      font-weight: 1000;
+      animation: breathe 3.6s ease-in-out infinite;
+    }
+    .castor-star {
+      position: absolute;
+      left: 27%;
+      top: 24%;
+      width: 9%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #ddecff;
+      box-shadow: 0 0 30px rgba(190,222,255,.75);
+    }
+    .castor-label {
+      position: absolute;
+      left: 18%;
+      top: 14%;
+      color: rgba(255,255,255,.72);
+      font-size: .88rem;
+      font-weight: 800;
+    }
+    .star-line {
+      position: absolute;
+      left: 33%;
+      top: 31%;
+      width: 27%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(221,236,255,.75), rgba(255,212,95,.8));
+      transform: rotate(15deg);
+      transform-origin: left center;
+    }
+    .float-note {
+      position: absolute;
+      right: 0;
+      bottom: 12%;
+      max-width: 210px;
+      padding: 15px 17px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 18px;
+      background: rgba(255,255,255,.09);
+      backdrop-filter: blur(12px);
+      color: rgba(255,255,255,.82);
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+    @keyframes breathe { 50% { transform: scale(1.045); } }
+
+    .story-shell {
+      width: var(--page);
+      margin: -38px auto 80px;
+      position: relative;
+      z-index: 3;
+    }
+    .orientation {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--line);
+      box-shadow: var(--shadow);
+    }
+    .orientation-item {
+      padding: 20px;
+      background: #fff;
+    }
+    .orientation-item small {
+      display: block;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .orientation-item strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 1.06rem;
+    }
+
+    .chapter {
+      scroll-margin-top: 96px;
+      margin-top: 96px;
+    }
+    .chapter-heading {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .chapter-number {
+      width: 54px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--night);
+      color: #fff;
+      font-weight: 1000;
+    }
+    .chapter-kicker {
+      display: block;
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 2px 0 0;
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.1;
+      letter-spacing: -.045em;
+    }
+    .permalink {
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--muted);
+      font-weight: 950;
+    }
+    .story-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .story-card.split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .story-copy { padding: clamp(28px, 5vw, 58px); }
+    .story-copy .lead {
+      margin: 0;
+      font-size: clamp(1.15rem, 2.1vw, 1.4rem);
+      line-height: 1.75;
+      font-weight: 750;
+    }
+    .story-copy p { margin: 18px 0 0; }
+    .talk-line {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-left: 5px solid var(--star);
+      border-radius: 4px 18px 18px 4px;
+      background: #fff9df;
+      color: #4b3b18;
+      font-weight: 850;
+    }
+    .visual-panel {
+      min-height: 480px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--night);
+      color: #fff;
+    }
+
+    .name-visual {
+      width: 100%;
+      height: 100%;
+      padding: 44px;
+      display: grid;
+      align-content: center;
+      background:
+        radial-gradient(circle at 62% 35%, rgba(255,212,95,.34), transparent 28%),
+        radial-gradient(circle at 30% 75%, rgba(69,185,211,.18), transparent 32%),
+        var(--night);
+    }
+    .name-visual .big-star {
+      width: 150px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      margin: auto;
+      border-radius: 50%;
+      background: var(--star);
+      color: var(--night);
+      box-shadow: 0 0 72px rgba(255,212,95,.55);
+      font-size: 2rem;
+      font-weight: 1000;
+    }
+    .twins {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 42px;
+    }
+    .twin {
+      min-width: 120px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 16px;
+      background: rgba(255,255,255,.08);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .bass-photo {
+      min-height: 500px;
+      background:
+        linear-gradient(90deg, rgba(7,26,51,.15), rgba(7,26,51,.02)),
+        url("assets/double-bass-study.png") 35% center / cover no-repeat;
+    }
+    .instrument-family {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .instrument {
+      min-height: 150px;
+      padding: 14px 8px;
+      display: grid;
+      align-content: end;
+      justify-items: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #f8fafc;
+      text-align: center;
+    }
+    .instrument-icon {
+      display: grid;
+      place-items: center;
+      color: #9a4e27;
+      filter: drop-shadow(0 6px 8px rgba(59,34,20,.15));
+    }
+    .instrument:nth-child(1) .instrument-icon { font-size: 2.6rem; }
+    .instrument:nth-child(2) .instrument-icon { font-size: 3rem; }
+    .instrument:nth-child(3) .instrument-icon { font-size: 3.7rem; }
+    .instrument:nth-child(4) .instrument-icon { font-size: 4.5rem; }
+    .instrument strong { margin-top: 8px; font-size: .88rem; }
+    .instrument small { color: var(--muted); font-size: .72rem; }
+
+    .train-scene {
+      min-height: 440px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 80% 18%, rgba(255,255,255,.92) 0 34px, transparent 35px),
+        linear-gradient(#11345e 0 55%, #d9ecf4 56% 74%, #edf7f8 75%);
+    }
+    .mountain {
+      position: absolute;
+      left: -5%;
+      bottom: 24%;
+      width: 62%;
+      height: 48%;
+      clip-path: polygon(0 100%, 32% 25%, 45% 55%, 68% 5%, 100% 100%);
+      background: #aacbdc;
+    }
+    .mountain.two {
+      left: 45%;
+      width: 65%;
+      height: 39%;
+      opacity: .8;
+    }
+    .rail {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 16%;
+      height: 7px;
+      background: #25364b;
+      box-shadow: 0 15px 0 #25364b;
+    }
+    .train {
+      position: absolute;
+      left: 11%;
+      bottom: 20%;
+      width: min(420px, 70%);
+      height: 120px;
+      animation: train-rock 2.6s ease-in-out infinite;
+    }
+    .engine {
+      position: absolute;
+      left: 0;
+      bottom: 22px;
+      width: 48%;
+      height: 66px;
+      border-radius: 12px 28px 7px 7px;
+      background: #202c3e;
+    }
+    .engine::before {
+      content: "";
+      position: absolute;
+      right: -25px;
+      bottom: 0;
+      border-left: 30px solid #202c3e;
+      border-top: 34px solid transparent;
+    }
+    .chimney {
+      position: absolute;
+      left: 48px;
+      bottom: 82px;
+      width: 30px;
+      height: 43px;
+      border-radius: 6px 6px 0 0;
+      background: #202c3e;
+    }
+    .car {
+      position: absolute;
+      bottom: 22px;
+      width: 23%;
+      height: 63px;
+      border-radius: 7px;
+      background: #a53639;
+      box-shadow: inset 0 8px #cf5e51;
+    }
+    .car.one { left: 54%; }
+    .car.two { left: 79%; }
+    .car::after {
+      content: "";
+      position: absolute;
+      inset: 18px 12px 22px;
+      background: repeating-linear-gradient(90deg, #ffd879 0 16px, transparent 17px 26px);
+    }
+    .wheel {
+      position: absolute;
+      bottom: 7px;
+      width: 32px;
+      aspect-ratio: 1;
+      border: 6px solid #121b29;
+      border-radius: 50%;
+      background: #586a80;
+    }
+    .wheel.w1 { left: 45px; }
+    .wheel.w2 { left: 145px; }
+    .wheel.w3 { left: 59%; }
+    .wheel.w4 { left: 83%; }
+    .smoke {
+      position: absolute;
+      left: 8%;
+      top: 12%;
+      width: 42px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      box-shadow: 55px -16px 0 20px rgba(255,255,255,.35), 118px -35px 0 32px rgba(255,255,255,.2);
+    }
+    @keyframes train-rock { 50% { transform: translateY(-4px); } }
+
+    .robot-lab {
+      min-height: 470px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(255,255,255,.075) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.075) 1px, transparent 1px),
+        #173b54;
+      background-size: 32px 32px;
+    }
+    .robot {
+      position: relative;
+      width: 220px;
+      height: 280px;
+    }
+    .robot-head {
+      position: absolute;
+      left: 34px;
+      top: 0;
+      width: 152px;
+      height: 112px;
+      border: 8px solid #c9d7df;
+      border-radius: 32px;
+      background: #eef5f6;
+      box-shadow: inset 0 -12px #dbe7eb;
+    }
+    .antenna {
+      position: absolute;
+      left: 106px;
+      top: -45px;
+      width: 8px;
+      height: 50px;
+      background: #c9d7df;
+    }
+    .antenna::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: -9px;
+      width: 28px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 24px rgba(255,140,97,.72);
+    }
+    .eye {
+      position: absolute;
+      top: 38px;
+      width: 23px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 18px rgba(50,102,213,.55);
+    }
+    .eye.left { left: 34px; }
+    .eye.right { right: 34px; }
+    .smile {
+      position: absolute;
+      left: 48px;
+      bottom: 19px;
+      width: 48px;
+      height: 18px;
+      border-bottom: 5px solid #547084;
+      border-radius: 0 0 50px 50px;
+    }
+    .robot-body {
+      position: absolute;
+      left: 23px;
+      top: 124px;
+      width: 174px;
+      height: 120px;
+      border: 8px solid #c9d7df;
+      border-radius: 24px;
+      background: #eef5f6;
+    }
+    .robot-body::after {
+      content: "</>";
+      position: absolute;
+      inset: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--night);
+      color: var(--mint);
+      font-weight: 1000;
+      font-size: 1.55rem;
+    }
+    .arm, .leg {
+      position: absolute;
+      border-radius: 14px;
+      background: #c9d7df;
+    }
+    .arm { top: 143px; width: 50px; height: 18px; }
+    .arm.left { left: -26px; transform: rotate(-25deg); }
+    .arm.right { right: -26px; transform: rotate(25deg); }
+    .leg { top: 235px; width: 24px; height: 55px; }
+    .leg.left { left: 58px; }
+    .leg.right { right: 58px; }
+    .code-steps {
+      display: grid;
+      gap: 10px;
+      margin-top: 26px;
+      counter-reset: code;
+    }
+    .code-step {
+      counter-increment: code;
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f8fbff;
+      font-weight: 800;
+    }
+    .code-step::before {
+      content: counter(code);
+      width: 34px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .travel-card { background: #e9f7fb; }
+    .map-wrap { padding: clamp(18px, 4vw, 42px); }
+    .map-frame {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(7,26,51,.12);
+      border-radius: 24px;
+      background: #c8edf4;
+      box-shadow: inset 0 0 80px rgba(50,102,213,.12);
+    }
+    .map-frame svg,
+    .map-frame img { display: block; width: 100%; height: auto; }
+    .map-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .closing {
+      margin-top: 96px;
+      padding: clamp(42px, 7vw, 82px);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 84% 20%, rgba(255,212,95,.22), transparent 24%),
+        linear-gradient(135deg, var(--night), #153f67);
+      color: #fff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .closing h2 { max-width: 780px; margin: auto; }
+    .closing p { max-width: 700px; margin: 20px auto 0; color: rgba(255,255,255,.78); font-size: 1.13rem; }
+    .closing .button { margin-top: 28px; }
+
+    .chapter-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .chapter-nav a {
+      min-height: 72px;
+      display: grid;
+      align-content: center;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 900;
+    }
+    .chapter-nav a:last-child { text-align: right; }
+
+    .references {
+      width: var(--page);
+      margin: 0 auto 48px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+    .references h2 { font-size: 1.4rem; letter-spacing: -.02em; }
+    .references p { color: var(--muted); }
+    .references ol { padding-left: 1.4rem; }
+    .references li { margin: 10px 0; color: var(--muted); }
+    .references a { font-weight: 800; }
+    .site-footer {
+      padding: 26px 18px 44px;
+      color: var(--muted);
+      text-align: center;
+      font-size: .86rem;
+    }
+    .site-footer a { margin-left: 8px; }
+    .back-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 70;
+      width: 50px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 16px;
+      background: var(--night);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(7,26,51,.25);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: .2s ease;
+    }
+    .back-top.show { opacity: 1; pointer-events: auto; transform: none; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 100;
+      transform: translate(-50%, 24px);
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: var(--night);
+      color: #fff;
+      font-weight: 850;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 920px) {
+      .header-inner { flex-wrap: wrap; padding: 10px 0; }
+      .primary-nav { order: 3; width: 100%; margin-left: 0; padding-bottom: 2px; }
+      .header-tools { margin-left: auto; }
+      .hero { min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .constellation { max-width: 460px; }
+      .orientation { grid-template-columns: repeat(2, 1fr); }
+      .story-card.split { grid-template-columns: 1fr; }
+      .visual-panel, .bass-photo { min-height: 430px; }
+      .bass-photo { grid-row: 1; }
+    }
+    @media (max-width: 600px) {
+      :root { --page: min(100% - 24px, 1160px); --radius: 22px; }
+      .header-inner { min-height: 62px; }
+      .brand span:last-child { display: none; }
+      .hero-inner { padding-top: 74px; }
+      .hero-actions { display: grid; }
+      .hero-actions .button { width: 100%; }
+      .constellation { margin-top: -30px; }
+      .float-note { right: 4%; }
+      .orientation { grid-template-columns: 1fr 1fr; }
+      .orientation-item { padding: 15px; }
+      .chapter { margin-top: 72px; scroll-margin-top: 138px; }
+      .chapter-heading { gap: 12px; }
+      .chapter-number { width: 44px; border-radius: 14px; }
+      .story-copy { padding: 26px 22px; }
+      .visual-panel, .bass-photo { min-height: 340px; }
+      .instrument-family { grid-template-columns: repeat(2, 1fr); }
+      .map-caption { display: block; }
+      .map-caption span { display: block; }
+      .map-caption span + span { margin-top: 4px; }
+      .chapter-nav { grid-template-columns: 1fr; }
+      .chapter-nav a:last-child { text-align: left; }
+      .train { left: 4%; width: 84%; transform: scale(.86); transform-origin: left bottom; }
+      .closing { padding: 42px 24px; }
+    }
+    @media print {
+      .site-header, .progress, .back-top, .hero-actions, .chapter-nav, .permalink, .toast { display: none !important; }
+      .hero { min-height: 600px; break-after: page; }
+      .chapter { break-before: page; margin-top: 0; padding-top: 24px; }
+      .story-card, .closing { box-shadow: none; }
+      .story-shell { margin-top: 0; }
+      a { color: inherit; text-decoration: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
-<body>
-  <a class="skip-link" href="#works">跳到作品列表</a>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <div class="progress" aria-hidden="true"></div>
+
   <header class="site-header">
-    <a class="logo" href="index.html" aria-label="Pollux 暑假作業主頁">
-      <span class="logo-star" aria-hidden="true">✦</span>
-      <span>Pollux 暑假作業</span>
-    </a>
-    <span class="school-year">2026 SUMMER</span>
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="回到 Pollux 暑假故事首頁">
+        <span class="brand-star" aria-hidden="true">✦</span>
+        <span>Pollux 的閃亮暑假</span>
+      </a>
+      <nav class="primary-nav" aria-label="網站分頁">
+        <a href="index.html" aria-current="page">首頁</a>
+        <a href="summer-share.html">北海道救熊記</a>
+        <a href="swimming-share.html">游泳小故事</a>
+        <a href="double-bass-review.html">Double Bass</a>
+        <a href="learning-portfolio/index.html">學習歷程</a>
+      </nav>
+      <div class="header-tools">
+        <button class="icon-button" id="textToggle" type="button" aria-pressed="false" aria-label="切換大字分享模式" title="大字分享模式">字+</button>
+        <button class="icon-button" id="speechToggle" type="button" aria-pressed="false" aria-label="開始朗讀練習" title="朗讀練習">▶</button>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" aria-labelledby="page-title">
-      <div class="hero-copy">
-        <p class="eyebrow">MY SUMMER LEARNING JOURNAL</p>
-        <h1 id="page-title">Pollux 的<br><span>暑假作業收藏館</span></h1>
-        <p class="intro">把這個夏天看見的風景、找到的答案和學到的新知識，整理成一篇篇可以和同學分享的小故事。</p>
-        <a class="primary-button" href="#works">看看我的作品 ↓</a>
-      </div>
-      <div class="summer-scene" role="img" aria-label="書本、星星、森林和太陽組成的暑假學習插畫">
-        <span class="scene-sun" aria-hidden="true">☀️</span>
-        <span class="scene-cloud cloud-a" aria-hidden="true">☁️</span>
-        <span class="scene-cloud cloud-b" aria-hidden="true">☁️</span>
-        <span class="scene-tree tree-a" aria-hidden="true">🌲</span>
-        <span class="scene-tree tree-b" aria-hidden="true">🌳</span>
-        <div class="book" aria-hidden="true"><span>📖</span></div>
-        <span class="spark spark-a" aria-hidden="true">✦</span>
-        <span class="spark spark-b" aria-hidden="true">✦</span>
-      </div>
-    </section>
-
-    <section class="works" id="works" aria-labelledby="works-title">
-      <div class="section-heading">
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
         <div>
-          <p class="eyebrow">PROJECT COLLECTION</p>
-          <h2 id="works-title">我的作品</h2>
+          <p class="eyebrow">八歲的我・暑假分享</p>
+          <h1 id="hero-title">Pollux<span>從星星出發的閃亮暑假</span></h1>
+          <p class="hero-copy">大家好，我是 Pollux。這個暑假，我拉了低音提琴、練習電影配樂、組裝機器人，也和爸爸媽媽飛到了北海道。準備好跟我一起出發了嗎？</p>
+          <div class="hero-actions">
+            <a class="button" href="#my-name">開始我的分享 <span aria-hidden="true">↓</span></a>
+            <button class="button secondary" id="heroSpeech" type="button">聽聽講稿 <span aria-hidden="true">▶</span></button>
+          </div>
         </div>
-        <p>目前收錄 <strong>1</strong> 份主題作業，之後還會繼續增加。</p>
-      </div>
-
-      <div class="project-grid">
-        <a class="project-card bear-card" href="bear-farm.html">
-          <div class="card-visual" aria-hidden="true">
-            <span class="mini-sun">●</span><span class="mini-tree one">▲</span><span class="mini-tree two">▲</span><span class="mini-bear">🐻</span>
-          </div>
-          <div class="card-content">
-            <div class="card-meta"><span>自然觀察</span><span>作品 01</span></div>
-            <h3>日本熊熊大調查</h3>
-            <p>從日本熊牧場出發，認識兩種熊、森林生態、動物福利與真正的熊保育。</p>
-            <span class="card-link">開啟互動作業 <b aria-hidden="true">→</b></span>
-          </div>
-        </a>
-
-        <article class="project-card coming-card" aria-label="下一份暑假作業，準備中">
-          <div class="coming-icon" aria-hidden="true">＋</div>
-          <p class="coming-label">NEXT PROJECT</p>
-          <h3>下一份暑假作業</h3>
-          <p>新的旅行記錄、觀察報告或學習故事，可以繼續放在這裡。</p>
-          <span class="status">準備中</span>
-        </article>
+        <div class="constellation" aria-label="Pollux 與 Castor 雙子星示意圖">
+          <div class="orbit"></div>
+          <div class="orbit"></div>
+          <div class="castor-star" aria-hidden="true"></div>
+          <span class="castor-label">Castor</span>
+          <span class="star-line" aria-hidden="true"></span>
+          <div class="pollux-star">Pollux</div>
+          <div class="float-note">Pollux 是雙子座中最亮的星，也是我英文名字的由來。</div>
+        </div>
       </div>
     </section>
 
-    <section class="about" aria-labelledby="about-title">
-      <div class="about-mark" aria-hidden="true">P</div>
-      <div><p class="eyebrow">ABOUT THIS COLLECTION</p><h2 id="about-title">每一份作業，都是一次小小探險</h2></div>
-      <p>先提出一個好問題，再找可靠資料、整理自己的想法，最後用簡單清楚的方式分享給大家。</p>
-    </section>
+    <div class="story-shell">
+      <aside class="orientation" aria-label="故事快速導覽">
+        <div class="orientation-item"><small>我是誰</small><strong>八歲的 Pollux</strong></div>
+        <div class="orientation-item"><small>音樂任務</small><strong>Double Bass</strong></div>
+        <div class="orientation-item"><small>動手學習</small><strong>機器人＋程式</strong></div>
+        <div class="orientation-item"><small>暑假旅行</small><strong>台灣 → 北海道</strong></div>
+      </aside>
+
+      <section class="chapter speech-text" id="my-name" data-title="我的名字" aria-labelledby="my-name-title">
+        <div class="chapter-heading">
+          <span class="chapter-number">01</span>
+          <div><span class="chapter-kicker">Hello, everyone!</span><h2 id="my-name-title">我的名字來自一顆星</h2></div>
+          <button class="permalink" type="button" data-copy-link="#my-name" aria-label="複製我的名字章節連結" title="複製章節連結">#</button>
+        </div>
+        <div class="story-card split">
+          <div class="story-copy">
+            <p class="lead">大家好，我是 Pollux，今年八歲。Pollux 中文叫作「北河三」，是雙子座中最明亮的一顆星。</p>
+            <p>在希臘神話裡，雙子座代表感情很好的兄弟 Castor 和 Pollux。故事中，Pollux 希望能一直和兄弟在一起，後來他們成為天空中的雙子座。</p>
+            <p>所以，我的名字不只代表一顆閃亮的星，也讓我想到勇敢、友愛和陪伴。我很喜歡這個特別的名字！<sup><a href="#ref-1" aria-label="參考資料 1">[1]</a></sup></p>
+            <div class="talk-line">分享小提示：說到「Pollux」時，可以抬頭指向天空，停一下再繼續說。</div>
+          </div>
+          <div class="name-visual" aria-hidden="true">
+            <div class="big-star">Pollux</div>
+            <div class="twins"><div class="twin">Castor<br><small>雙子星</small></div><div class="twin">Pollux<br><small>雙子星</small></div></div>
+          </div>
+        </div>
+        <nav class="chapter-nav" aria-label="章節導覽"><a href="#top">← 回到開頭</a><a href="#double-bass">下一站：低音提琴 →</a></nav>
+      </section>
+
+      <section class="chapter speech-text" id="double-bass" data-title="低音提琴" aria-labelledby="double-bass-title">
+        <div class="chapter-heading">
+          <span class="chapter-number">02</span>
+          <div><span class="chapter-kicker">Music time</span><h2 id="double-bass-title">我在弦樂團拉 Double Bass</h2></div>
+          <button class="permalink" type="button" data-copy-link="#double-bass" aria-label="複製低音提琴章節連結" title="複製章節連結">#</button>
+        </div>
+        <div class="story-card split">
+          <div class="bass-photo" role="img" aria-label="舞台上的低音提琴與譜架"></div>
+          <div class="story-copy">
+            <p class="lead">我現在是博愛弦樂團的 Double Bass 團員。Double Bass 就是「低音提琴」。</p>
+            <p>低音提琴是弦樂團裡體積最大、聲音最低沉的樂器。因為它很大，演奏的時候通常要站著，或坐在高腳椅上。</p>
+            <p>弦樂團主要有四種樂器。每一種都有不同的聲音，合在一起，就像大家一起合作說一個音樂故事。<sup><a href="#ref-2" aria-label="參考資料 2">[2]</a></sup></p>
+            <div class="instrument-family" aria-label="弦樂團四種主要樂器，由小到大排列">
+              <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>小提琴</strong><small>高音・明亮</small></div>
+              <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>中提琴</strong><small>溫暖・柔和</small></div>
+              <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>大提琴</strong><small>深沉・優美</small></div>
+              <div class="instrument"><span class="instrument-icon" aria-hidden="true">♪</span><strong>低音提琴</strong><small>最低・有力量</small></div>
+            </div>
+            <div class="talk-line">低音提琴就像音樂的地基，讓整個弦樂團聽起來更穩、更有力量。</div>
+          </div>
+        </div>
+        <nav class="chapter-nav" aria-label="章節導覽"><a href="#my-name">← 上一站：我的名字</a><a href="#polar-express">下一站：北極特快車 →</a></nav>
+      </section>
+
+      <section class="chapter speech-text" id="polar-express" data-title="北極特快車" aria-labelledby="polar-express-title">
+        <div class="chapter-heading">
+          <span class="chapter-number">03</span>
+          <div><span class="chapter-kicker">All aboard!</span><h2 id="polar-express-title">我練了《北極特快車》</h2></div>
+          <button class="permalink" type="button" data-copy-link="#polar-express" aria-label="複製北極特快車章節連結" title="複製章節連結">#</button>
+        </div>
+        <div class="story-card split">
+          <div class="story-copy">
+            <p class="lead">暑假期間，我練習了電影《北極特快車》的主題曲。</p>
+            <p>這是一個充滿聖誕節氣氛、勇氣與想像力的故事。音樂有時輕快，有時很壯觀，讓我覺得自己好像真的搭上火車，往冰天雪地的北極前進。<sup><a href="#ref-3" aria-label="參考資料 3">[3]</a></sup></p>
+            <p>剛開始，有些節奏和指法很困難。我把困難的地方分成一小段、一小段，慢慢練習。當大家一起合奏時，我覺得很開心，也很有成就感。</p>
+            <div class="talk-line">我的練習方法：先放慢、再分段，最後才和大家一起合奏。</div>
+          </div>
+          <div class="train-scene" role="img" aria-label="北極夜空下，火車在雪地中行駛的插畫">
+            <div class="mountain"></div><div class="mountain two"></div><div class="smoke"></div><div class="rail"></div>
+            <div class="train" aria-hidden="true"><div class="chimney"></div><div class="engine"></div><div class="car one"></div><div class="car two"></div><i class="wheel w1"></i><i class="wheel w2"></i><i class="wheel w3"></i><i class="wheel w4"></i></div>
+          </div>
+        </div>
+        <nav class="chapter-nav" aria-label="章節導覽"><a href="#double-bass">← 上一站：低音提琴</a><a href="#robot">下一站：機器人 →</a></nav>
+      </section>
+
+      <section class="chapter speech-text" id="robot" data-title="機器人" aria-labelledby="robot-title">
+        <div class="chapter-heading">
+          <span class="chapter-number">04</span>
+          <div><span class="chapter-kicker">Build · Code · Try again</span><h2 id="robot-title">我自己組裝機器人</h2></div>
+          <button class="permalink" type="button" data-copy-link="#robot" aria-label="複製機器人章節連結" title="複製章節連結">#</button>
+        </div>
+        <div class="story-card split">
+          <div class="robot-lab" aria-label="一個會寫程式的可愛機器人插畫">
+            <div class="robot" aria-hidden="true"><div class="antenna"></div><div class="robot-head"><i class="eye left"></i><i class="eye right"></i><i class="smile"></i></div><div class="arm left"></div><div class="arm right"></div><div class="robot-body"></div><div class="leg left"></div><div class="leg right"></div></div>
+          </div>
+          <div class="story-copy">
+            <p class="lead">我還上了機器人課。我先自己拼裝零件，再學習用程式語言控制它。</p>
+            <p>我可以告訴機器人往前走、轉彎，或完成指定的動作。寫程式就像是把清楚的指令，一步一步告訴機器人。</p>
+            <div class="code-steps" aria-label="機器人學習的三個步驟">
+              <div class="code-step">把機器人的零件拼起來</div>
+              <div class="code-step">寫下動作的程式指令</div>
+              <div class="code-step">測試、找問題、再修改</div>
+            </div>
+            <p>有時候，機器人沒有照我的想法行動，我就檢查零件和程式，找到問題再重新試一次。這讓我學會耐心思考，也知道失敗一次沒有關係。</p>
+            <div class="talk-line">每一次修改，都讓機器人更接近我想要的動作！</div>
+          </div>
+        </div>
+        <nav class="chapter-nav" aria-label="章節導覽"><a href="#polar-express">← 上一站：北極特快車</a><a href="#hokkaido">下一站：北海道 →</a></nav>
+      </section>
+
+      <section class="chapter speech-text" id="hokkaido" data-title="北海道旅行" aria-labelledby="hokkaido-title">
+        <div class="chapter-heading">
+          <span class="chapter-number">05</span>
+          <div><span class="chapter-kicker">Taiwan → Hokkaido</span><h2 id="hokkaido-title">爸爸媽媽帶我去北海道</h2></div>
+          <button class="permalink" type="button" data-copy-link="#hokkaido" aria-label="複製北海道旅行章節連結" title="複製章節連結">#</button>
+        </div>
+        <div class="story-card travel-card">
+          <div class="story-copy">
+            <p class="lead">這個暑假，爸爸媽媽還帶我從台灣搭飛機去日本北海道。從熟悉的家出發，飛向北方，是我暑假裡很期待的一段旅程。</p>
+            <p>北海道的風景、天氣和台灣很不一樣。旅行的時候，我看見新的地方，也和爸爸媽媽一起留下了開心的回憶。對我來說，旅行就像打開一本真的地理課本：可以用眼睛看、用腳走，也可以用心記住。</p>
+            <div class="talk-line">地圖上的黃色航線，是台灣飛往北海道的方向示意。飛機一路向北，抵達日本北方的北海道。</div>
+            <p><a class="button dark" href="summer-share.html">閱讀北海道救熊記 →</a></p>
+          </div>
+          <figure class="map-wrap" aria-labelledby="flight-map-caption">
+            <div class="map-frame">
+              <picture>
+                <source media="(max-width: 600px)" srcset="assets/taiwan-hokkaido-map-mobile.svg">
+                <img src="assets/taiwan-hokkaido-map.svg" alt="依真實地理資料繪製的東亞地圖：台灣位在中國東南方、日本西南方；黃色航線從台灣向東北方前往日本北海道。">
+              </picture>
+            </div>
+            <figcaption class="map-caption" id="flight-map-caption"><span>台灣 ✈ 北海道｜暑假家庭旅行</span><span>Natural Earth 地理底圖・航線為方向示意</span></figcaption>
+          </figure>
+        </div>
+        <nav class="chapter-nav" aria-label="章節導覽"><a href="#robot">← 上一站：機器人</a><a href="#closing">最後一站：我的收穫 →</a></nav>
+      </section>
+
+      <section class="closing speech-text" id="closing" data-title="我的暑假收穫" aria-labelledby="closing-title">
+        <span class="chapter-kicker" style="color: var(--star)">My summer, my story</span>
+        <h2 id="closing-title">像 Pollux 星星一樣，勇敢學習、努力發光</h2>
+        <p>這個暑假，我學習了音樂、低音提琴、機器人和程式，也和爸爸媽媽一起旅行。我不但學到新知識，還學會耐心、合作，以及遇到困難時再試一次。</p>
+        <p><strong>謝謝老師和同學聽我分享！</strong></p>
+        <a class="button" href="#top">再看一次 <span aria-hidden="true">↑</span></a>
+      </section>
+    </div>
   </main>
 
-  <footer><span>Pollux 暑假作業</span><span>Made for curious minds ✦ 2026</span></footer>
+  <section class="references" id="references" aria-labelledby="references-title">
+    <h2 id="references-title">資料小角落</h2>
+    <p>故事主體可完全離線閱讀；以下外部連結供老師或家長延伸查閱。</p>
+    <ol>
+      <li id="ref-1"><a href="https://science.nasa.gov/solar-system/skywatching/night-sky-network/gemini-constellation/" target="_blank" rel="noopener noreferrer">NASA Science：Find the Twins—Gemini Constellation</a>（雙子座、Castor 與 Pollux；查閱日期：2026-08-23）</li>
+      <li id="ref-2"><a href="https://www.dallassymphony.org/community-education/dso-kids/listen-watch/instruments/double-bass/" target="_blank" rel="noopener noreferrer">Dallas Symphony Orchestra：Double Bass</a>（弦樂器家族與低音提琴；查閱日期：2026-08-23）</li>
+      <li id="ref-3"><a href="https://www.youtube.com/watch?v=EeNzP7HdCoo" target="_blank" rel="noopener noreferrer">Warner Bros. Entertainment：《The Polar Express》官方影片介紹</a>（電影故事背景；查閱日期：2026-08-23）</li>
+      <li id="ref-4"><a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/" target="_blank" rel="noopener noreferrer">Natural Earth：Admin 0 Countries 1:110m</a>（東亞地圖國界與海岸線；查閱日期：2026-08-24）</li>
+    </ol>
+    <p><strong>媒體紀錄：</strong>低音提琴背景使用本專案素材 <code>assets/double-bass-study.png</code>；星空、火車與機器人以本頁 HTML／CSS／SVG 原生繪製；東亞地圖使用 Natural Earth 1:110m 地理資料製作成離線 SVG，閱讀時不需連線載入。</p>
+  </section>
+
+  <footer class="site-footer">Pollux 的暑假分享・離線多頁版 <a href="summer-share.html">北海道救熊記</a><a href="swimming-share.html">我和爺爺去游泳</a><a href="double-bass-review.html">Double Bass 圖像複習</a></footer>
+  <button class="back-top" id="backTop" type="button" aria-label="回到頁面頂端">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite">已複製章節連結</div>
+
+  <script>
+    (() => {
+      const progress = document.querySelector('.progress');
+      const backTop = document.getElementById('backTop');
+      const sections = [...document.querySelectorAll('[data-title]')];
+      const toast = document.getElementById('toast');
+      const textToggle = document.getElementById('textToggle');
+      const speechToggle = document.getElementById('speechToggle');
+      const heroSpeech = document.getElementById('heroSpeech');
+      let speaking = false;
+
+      function updateScrollUI() {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`;
+        backTop.classList.toggle('show', scrollY > 520);
+      }
+
+      addEventListener('scroll', updateScrollUI, { passive: true });
+      addEventListener('resize', updateScrollUI);
+      updateScrollUI();
+
+      backTop.addEventListener('click', () => {
+        scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        document.querySelector('.brand').focus({ preventScroll: true });
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', event => {
+          const target = document.querySelector(link.hash);
+          if (!target) return;
+          event.preventDefault();
+          history.pushState(null, '', link.hash);
+          target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          setTimeout(() => target.focus?.({ preventScroll: true }), 500);
+        });
+      });
+
+      document.querySelectorAll('[data-copy-link]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const url = `${location.href.split('#')[0]}${button.dataset.copyLink}`;
+          try {
+            await navigator.clipboard.writeText(url);
+            toast.textContent = '已複製章節連結';
+          } catch {
+            toast.textContent = '章節網址在瀏覽器網址列';
+            location.hash = button.dataset.copyLink;
+          }
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 1800);
+        });
+      });
+
+      textToggle.addEventListener('click', () => {
+        const enabled = document.body.classList.toggle('presentation-mode');
+        textToggle.setAttribute('aria-pressed', String(enabled));
+        textToggle.textContent = enabled ? '字−' : '字+';
+        toast.textContent = enabled ? '已開啟大字分享模式' : '已回復一般字級';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
+      });
+
+      function stopSpeech() {
+        if ('speechSynthesis' in window) speechSynthesis.cancel();
+        speaking = false;
+        speechToggle.setAttribute('aria-pressed', 'false');
+        speechToggle.textContent = '▶';
+        heroSpeech.innerHTML = '聽聽講稿 <span aria-hidden="true">▶</span>';
+      }
+
+      function startSpeech() {
+        if (!('speechSynthesis' in window)) {
+          toast.textContent = '這個瀏覽器不支援朗讀功能';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2200);
+          return;
+        }
+        if (speaking) { stopSpeech(); return; }
+        const fullText = sections.map(section => section.innerText.replace(/\[[0-9]+\]/g, '')).join('。');
+        const utterance = new SpeechSynthesisUtterance(fullText);
+        utterance.lang = 'zh-TW';
+        utterance.rate = .92;
+        utterance.pitch = 1.05;
+        utterance.onend = stopSpeech;
+        utterance.onerror = stopSpeech;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utterance);
+        speaking = true;
+        speechToggle.setAttribute('aria-pressed', 'true');
+        speechToggle.textContent = '■';
+        heroSpeech.innerHTML = '停止朗讀 <span aria-hidden="true">■</span>';
+      }
+
+      speechToggle.addEventListener('click', startSpeech);
+      heroSpeech.addEventListener('click', startSpeech);
+      addEventListener('pagehide', stopSpeech);
+      addEventListener('popstate', () => {
+        if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+      });
+    })();
+  </script>
 </body>
 </html>

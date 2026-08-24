@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Double Bass 圖像複習</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24211d;
+      --muted: #6d6d66;
+      --paper: #f7f4ec;
+      --panel: #fffdf8;
+      --line: #ddd6c9;
+      --wood: #8f512a;
+      --wood-dark: #50301f;
+      --teal: #0f766e;
+      --teal-soft: #dcefed;
+      --gold: #d69a2d;
+      --red: #b85647;
+      --blue: #376d9f;
+      --green: #4f8b52;
+      --shadow: 0 20px 48px rgba(43, 35, 25, .14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .site-links {
+      background: #071a33;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+    }
+
+    .site-links-inner {
+      width: min(1120px, calc(100% - 28px));
+      min-height: 58px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .site-links a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.76);
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .site-links a[aria-current="page"],
+    .site-links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,.14);
+    }
+
+    .hero {
+      min-height: 58vh;
+      display: grid;
+      align-items: end;
+      padding: 28px;
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(25, 18, 14, .86), rgba(25, 18, 14, .48) 48%, rgba(25, 18, 14, .08)),
+        url("assets/double-bass-study.png") center / cover no-repeat;
+    }
+
+    .hero-inner {
+      width: min(1120px, 100%);
+      margin: 0 auto 28px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #f7d8a2;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 740px;
+      margin: 0;
+      font-size: clamp(38px, 7vw, 76px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 560px;
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, .88);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 28px));
+      margin: -30px auto 64px;
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      margin-bottom: 22px;
+    }
+
+    .surface {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .page-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .page-tabs button,
+    .page-tabs a {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--wood-dark);
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(43, 35, 25, .1);
+      text-decoration: none;
+    }
+
+    .page-tabs button.active {
+      background: var(--wood-dark);
+      color: #fff;
+      border-color: var(--wood-dark);
+    }
+
+    .page-tabs a {
+      margin-left: auto;
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .page-panel[hidden] {
+      display: none;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      padding: 20px 22px 0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0;
+    }
+
+    .hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pill-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-tabs button,
+    .small-button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .pill-tabs button.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .study-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .fingerboard-wrap {
+      min-width: 0;
+    }
+
+    .fingerboard-labels,
+    .fingerboard-row {
+      display: grid;
+      grid-template-columns: 48px repeat(7, minmax(58px, 1fr));
+      gap: 0;
+    }
+
+    .fingerboard-labels {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .fingerboard-labels span {
+      text-align: center;
+    }
+
+    .string-name {
+      display: grid;
+      place-items: center start;
+      color: var(--wood-dark);
+      font-weight: 900;
+    }
+
+    .note-cell {
+      min-height: 54px;
+      display: grid;
+      place-items: center;
+      border-top: 1px solid #b9a994;
+      border-right: 3px solid #7b614b;
+      background:
+        linear-gradient(#6c432c, #4b2d1e);
+      position: relative;
+    }
+
+    .note-cell::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      background: rgba(245, 235, 212, .8);
+      transform: translateY(-50%);
+    }
+
+    .note-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .92);
+      color: var(--muted);
+      border: 2px solid rgba(255, 255, 255, .4);
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
+      line-height: 1.05;
+      text-align: center;
+    }
+
+    .note-name {
+      display: block;
+      font-size: 13px;
+    }
+
+    .note-solfege {
+      display: block;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .note-cell.ghost .note-solfege {
+      display: none;
+    }
+
+    .note-cell.active .note-dot {
+      background: var(--gold);
+      color: #241a0b;
+      border-color: #fff1c7;
+      transform: scale(1.09);
+    }
+
+    .note-cell.root .note-dot {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .note-cell.ghost .note-dot {
+      opacity: .26;
+    }
+
+    .focus-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffaf0;
+    }
+
+    .focus-title {
+      margin: 0 0 12px;
+      color: var(--wood-dark);
+      font-size: 22px;
+    }
+
+    .big-notes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .big-notes span {
+      min-width: 58px;
+      min-height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-weight: 900;
+      border: 1px solid #b9d6d1;
+      line-height: 1.1;
+      text-align: center;
+      padding: 7px;
+    }
+
+    .solfege-strip {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin: 12px 0 16px;
+    }
+
+    .solfege-strip span {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 8px 6px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .solfege-strip b {
+      display: block;
+      color: var(--wood-dark);
+      font-size: 15px;
+    }
+
+    .teacher-note {
+      margin: 14px 0 0;
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+      background: #eef8f5;
+      color: #30514e;
+      padding: 12px 14px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .mini-plan {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .mini-plan div {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .badge {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--wood);
+      font-weight: 900;
+    }
+
+    .position-map {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 18px;
+    }
+
+    .position-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .position-card h3 {
+      margin: 0;
+      padding: 14px;
+      color: #fff;
+      background: var(--wood-dark);
+      font-size: 18px;
+    }
+
+    .neck {
+      height: 190px;
+      margin: 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4a2b1d, #81502f, #4a2b1d);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .neck::before,
+    .neck::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, .42);
+    }
+
+    .neck::before {
+      left: 38%;
+    }
+
+    .neck::after {
+      right: 38%;
+    }
+
+    .hand-zone {
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .2);
+    }
+
+    .zone-half { top: 16px; }
+    .zone-first { top: 48px; }
+    .zone-second { top: 86px; }
+    .zone-third { top: 126px; }
+
+    .position-card p {
+      margin: 0;
+      padding: 0 16px 16px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .song-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 18px;
+    }
+
+    .song-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+    }
+
+    .song-card .level {
+      display: inline-block;
+      margin-bottom: 10px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .song-card h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+    }
+
+    .song-card ul {
+      margin: 0;
+      padding-left: 19px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .practice-panel {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    label.check {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      cursor: pointer;
+      min-height: 74px;
+    }
+
+    input[type="checkbox"] {
+      width: 19px;
+      height: 19px;
+      accent-color: var(--teal);
+      margin-top: 3px;
+    }
+
+    .checked-text strong {
+      display: block;
+      color: var(--ink);
+    }
+
+    .checked-text span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input:checked + .checked-text strong,
+    input:checked + .checked-text span {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(15, 118, 110, .45);
+    }
+
+    .progress-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffaf0;
+      padding: 16px;
+    }
+
+    .progress-box h3 {
+      margin: 0 0 8px;
+      color: var(--wood-dark);
+    }
+
+    .progress-box p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .meter {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e6dfd2;
+    }
+
+    .bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      transition: width .25s ease;
+    }
+
+    .reset {
+      width: 100%;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--wood-dark);
+      color: #fff;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .score-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      padding: 18px;
+      align-items: start;
+    }
+
+    .score-tools {
+      display: grid;
+      gap: 12px;
+    }
+
+    .upload-box {
+      border: 2px dashed #cdbda9;
+      border-radius: 8px;
+      background: #fffaf0;
+      padding: 16px;
+    }
+
+    .upload-box h3,
+    .score-notes h3 {
+      margin: 0 0 8px;
+      color: var(--wood-dark);
+    }
+
+    .upload-box p,
+    .score-notes p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .file-button {
+      display: inline-block;
+      border-radius: 8px;
+      background: var(--teal);
+      color: #fff;
+      padding: 11px 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .file-button input {
+      display: none;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .score-chip {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 11px 12px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .preset-score {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .preset-score span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .score-viewer {
+      min-height: 680px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(#fff 23px, #e8e2d6 24px, #fff 25px),
+        #fff;
+      background-size: 100% 48px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .score-placeholder {
+      max-width: 460px;
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .score-placeholder strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--wood-dark);
+      font-size: 24px;
+    }
+
+    .score-viewer iframe,
+    .score-viewer img {
+      width: 100%;
+      height: 100%;
+      min-height: 680px;
+      border: 0;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        min-height: 50vh;
+        background-position: 42% center;
+      }
+
+      main {
+        margin-top: -18px;
+      }
+
+      .section-head,
+      .study-grid,
+      .practice-panel,
+      .score-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: grid;
+      }
+
+      .position-map,
+      .song-cards,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .fingerboard-wrap {
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .fingerboard-labels,
+      .fingerboard-row {
+        min-width: 730px;
+      }
+
+      .solfege-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .page-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      .page-tabs button,
+      .page-tabs a {
+        flex: 1;
+        text-align: center;
+      }
+
+      .score-viewer,
+      .score-viewer iframe,
+      .score-viewer img {
+        min-height: 520px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-links" aria-label="網站分頁">
+    <div class="site-links-inner">
+      <a href="index.html">首頁</a>
+      <a href="summer-share.html">北海道救熊記</a>
+      <a href="swimming-share.html">游泳小故事</a>
+      <a href="double-bass-review.html" aria-current="page">Double Bass</a>
+      <a href="learning-portfolio/index.html">學習歷程</a>
+    </div>
+  </nav>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Double Bass 圖像複習</p>
+      <h1>先看指板，再練手感</h1>
+      <p class="hero-copy">把音階、把位、曲目拆成可以看的小圖。每天照著圖練一輪，就知道今天要按哪裡、聽什麼。</p>
+    </div>
+  </header>
+
+  <main>
+    <nav class="page-tabs" aria-label="主要分頁">
+      <button type="button" class="active" data-page-tab="review">複習</button>
+      <button type="button" data-page-tab="scores">樂譜</button>
+    </nav>
+
+    <div class="page-panel" data-page-panel="review">
+    <section class="surface" aria-labelledby="fingerboardTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="fingerboardTitle">指板複習</h2>
+          <p class="hint">選一個練習，黃色是今天要找的音，紅色是根音。先唱唱名，再唸音名，最後按弦。</p>
+          <p class="teacher-note">音名是固定的字母，例如 D、E、F#。唱名在 D 大調、G 大調用「移動 Do」：主音就是 Do；空弦和半把位則當作單音記憶。</p>
+        </div>
+        <div class="pill-tabs" aria-label="選擇練習">
+          <button type="button" class="active" data-scale="open">空弦</button>
+          <button type="button" data-scale="d">D 大調</button>
+          <button type="button" data-scale="g">G 大調</button>
+          <button type="button" data-scale="half">半把位</button>
+        </div>
+      </div>
+
+      <div class="study-grid">
+        <div class="fingerboard-wrap">
+          <div class="fingerboard-labels">
+            <span></span><span>空弦</span><span>靠近琴頭</span><span>中段</span><span>遠一點</span><span>換把</span><span>高音</span><span>延伸</span>
+          </div>
+          <p class="hint">這裡是音的位置圖，不是固定指法表；實際用幾指要依老師指定的把位調整。</p>
+          <div id="fingerboard"></div>
+        </div>
+
+        <aside class="focus-card">
+          <h3 class="focus-title" id="focusTitle">空弦</h3>
+          <p id="focusText">先讓右手穩定。每條弦都拉長弓，聽聲音有沒有平。</p>
+          <div class="solfege-strip" id="solfegeStrip"></div>
+          <div class="big-notes" id="focusNotes"></div>
+          <div class="mini-plan">
+            <div><span class="badge">1</span><span id="planOne">G、D、A、E 各拉 8 下</span></div>
+            <div><span class="badge">2</span><span id="planTwo">每一下都保持同樣速度</span></div>
+            <div><span class="badge">3</span><span id="planThree">聲音不穩就回到慢弓</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="surface" aria-labelledby="positionTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="positionTitle">把位看這裡</h2>
+        <p class="hint">不用先背一堆字。先記住左手大概在哪一段，再回到指板找音；真正指法以老師的版本為準。</p>
+        </div>
+      </div>
+
+      <div class="position-map">
+        <article class="position-card">
+          <h3>半把位</h3>
+          <div class="neck"><span class="hand-zone zone-half"></span></div>
+          <p>靠近琴頭。常找 F、Bb、Eb，降記號調性很常用。</p>
+        </article>
+        <article class="position-card">
+          <h3>第一把位</h3>
+          <div class="neck"><span class="hand-zone zone-first"></span></div>
+          <p>最基本。先把 D 大調、G 大調練穩。</p>
+        </article>
+        <article class="position-card">
+          <h3>第二把位</h3>
+          <div class="neck"><span class="hand-zone zone-second"></span></div>
+          <p>用來銜接。練習時注意手移動的距離。</p>
+        </article>
+        <article class="position-card">
+          <h3>第三把位</h3>
+          <div class="neck"><span class="hand-zone zone-third"></span></div>
+          <p>比較像唱旋律。換把前先在心裡聽到目標音。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="surface" aria-labelledby="songTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="songTitle">曲目怎麼排</h2>
+          <p class="hint">不要一次練整首。照階段選一張卡，今天只練一個重點。</p>
+        </div>
+      </div>
+
+      <div class="song-cards">
+        <article class="song-card">
+          <span class="level">初學</span>
+          <h3>空弦伴奏</h3>
+          <ul>
+            <li>只練節奏</li>
+            <li>每小節都數拍</li>
+            <li>弓速保持一樣</li>
+          </ul>
+        </article>
+        <article class="song-card">
+          <span class="level">基礎</span>
+          <h3>D / G 大調</h3>
+          <ul>
+            <li>第一把位</li>
+            <li>音準對空弦</li>
+            <li>四小節一組</li>
+          </ul>
+        </article>
+        <article class="song-card">
+          <span class="level">進階前</span>
+          <h3>降記號曲目</h3>
+          <ul>
+            <li>半把位</li>
+            <li>先找 F、Bb、Eb</li>
+            <li>慢練換把</li>
+          </ul>
+        </article>
+        <article class="song-card">
+          <span class="level">進階</span>
+          <h3>旋律小品</h3>
+          <ul>
+            <li>第三把位</li>
+            <li>先唱再拉</li>
+            <li>注意樂句方向</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="surface" aria-labelledby="practiceTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="practiceTitle">今天照這樣練</h2>
+          <p class="hint">勾起來會自動留下紀錄。下次打開還會看到進度。</p>
+        </div>
+      </div>
+
+      <div class="practice-panel">
+        <div class="checklist">
+          <label class="check"><input type="checkbox" data-save="open-strings"><span class="checked-text"><strong>空弦</strong><span>G、D、A、E 各 8 下長弓</span></span></label>
+          <label class="check"><input type="checkbox" data-save="d-major"><span class="checked-text"><strong>D 大調</strong><span>先唱 Do Re Mi，再拉 D E F#</span></span></label>
+          <label class="check"><input type="checkbox" data-save="g-major"><span class="checked-text"><strong>G 大調</strong><span>G 當 Do，唱名和音名一起練</span></span></label>
+          <label class="check"><input type="checkbox" data-save="half-position"><span class="checked-text"><strong>半把位</strong><span>找 F=Fa、Bb=降Si、Eb=降Mi</span></span></label>
+          <label class="check"><input type="checkbox" data-save="shift"><span class="checked-text"><strong>換把</strong><span>第一把位到第二把位慢移動</span></span></label>
+          <label class="check"><input type="checkbox" data-save="piece"><span class="checked-text"><strong>曲目</strong><span>只練 4 小節，不急著拉完整首</span></span></label>
+        </div>
+
+        <aside class="progress-box">
+          <h3>完成度</h3>
+          <p id="progressText">今天還沒開始。先從空弦開始。</p>
+          <div class="meter" aria-hidden="true"><div class="bar" id="bar"></div></div>
+          <button class="reset" type="button" id="reset">清空今日紀錄</button>
+        </aside>
+      </div>
+    </section>
+    </div>
+
+    <div class="page-panel" data-page-panel="scores" hidden>
+      <section class="surface" aria-labelledby="scoreTitle">
+        <div class="section-head">
+          <div>
+            <h2 id="scoreTitle">樂譜</h2>
+            <p class="hint">這裡專門放練習用樂譜。可以選 PDF 或圖片先預覽，旁邊留曲目重點。</p>
+          </div>
+        </div>
+
+        <div class="score-layout">
+          <aside class="score-tools">
+            <div class="upload-box">
+              <h3>放入樂譜</h3>
+              <p>選擇 PDF、PNG 或 JPG。這只是本機預覽，不會上傳。</p>
+              <label class="file-button">
+                選擇樂譜檔
+                <input id="scoreFile" type="file" accept="application/pdf,image/png,image/jpeg,image/webp">
+              </label>
+              <p id="scoreFileName">目前尚未選擇檔案。</p>
+            </div>
+
+            <div class="score-notes">
+              <h3>預存樂譜</h3>
+              <div class="score-list">
+                <button class="preset-score" type="button" data-score-src="scores/space-march-bass.svg" data-score-title="Space March Bass Study">
+                  Space March Bass Study
+                  <span>原創太空進行曲低音練習，可直接預覽。</span>
+                </button>
+                <button class="preset-score" type="button" data-score-src="scores/star-wars.pdf" data-score-title="Star Wars 授權樂譜">
+                  Star Wars 授權樂譜
+                  <span>把合法取得的 PDF 放到 scores/star-wars.pdf 後可開啟。</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="score-notes">
+              <h3>曲目重點</h3>
+              <div class="score-list">
+                <div class="score-chip">先圈 D、A、G 這些支撐音</div>
+                <div class="score-chip">慢速數 1-2-3-4，不先追速度</div>
+                <div class="score-chip">看到跳進時先唱音，再換弦</div>
+                <div class="score-chip">Star Wars 正式樂譜請使用授權版本</div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="score-viewer" id="scoreViewer">
+            <div class="score-placeholder">
+              <strong>樂譜預覽區</strong>
+              選擇一份 PDF 或圖片樂譜後，會顯示在這裡。
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const strings = [
+      { name: "G弦", notes: ["G", "Ab", "A", "B", "C", "D", "E"] },
+      { name: "D弦", notes: ["D", "Eb", "E", "F#", "G", "A", "B"] },
+      { name: "A弦", notes: ["A", "Bb", "B", "C#", "D", "E", "F#"] },
+      { name: "E弦", notes: ["E", "F", "F#", "G#", "A", "B", "C#"] }
+    ];
+
+    const lessons = {
+      open: {
+        title: "空弦",
+        text: "空弦先記音名和唱名：G=Sol、D=Re、A=La、E=Mi。每條弦都拉長弓，聽聲音有沒有平。",
+        notes: ["G", "D", "A", "E"],
+        roots: ["G", "D", "A", "E"],
+        solfege: { G: "Sol", D: "Re", A: "La", E: "Mi" },
+        plan: ["G、D、A、E 各拉 8 下", "每一下都保持同樣速度", "聲音不穩就回到慢弓"]
+      },
+      d: {
+        title: "D 大調",
+        text: "這裡用移動 Do：D 是 Do。先唱 Do Re Mi，再去指板上找音。",
+        notes: ["D", "E", "F#", "G", "A", "B", "C#"],
+        roots: ["D"],
+        solfege: { D: "Do", E: "Re", "F#": "Mi", G: "Fa", A: "Sol", B: "La", "C#": "Si" },
+        plan: ["先唱 Do Re Mi Fa Sol La Si", "再唸 D E F# G A B C#", "最後拉成一條音階"]
+      },
+      g: {
+        title: "G 大調",
+        text: "這裡用移動 Do：G 是 Do。G 大調很適合練第一把位和換弦。",
+        notes: ["G", "A", "B", "C", "D", "E", "F#"],
+        roots: ["G"],
+        solfege: { G: "Do", A: "Re", B: "Mi", C: "Fa", D: "Sol", E: "La", "F#": "Si" },
+        plan: ["先唱 Do Re Mi Fa Sol La Si", "再找 G A B C D E F#", "每次換弦都保持弓直"]
+      },
+      half: {
+        title: "半把位",
+        text: "半把位靠近琴頭。先記三個常見音：F=Fa、Bb=降 Si、Eb=降 Mi。",
+        notes: ["F", "Bb", "Eb"],
+        roots: ["F", "Bb", "Eb"],
+        solfege: { F: "Fa", Bb: "降Si", Eb: "降Mi" },
+        plan: ["E 弦找 F", "A 弦找 Bb", "D 弦找 Eb"]
+      }
+    };
+
+    const fingerboard = document.querySelector("#fingerboard");
+    const tabButtons = Array.from(document.querySelectorAll("[data-scale]"));
+    const pageTabs = Array.from(document.querySelectorAll("[data-page-tab]"));
+    const pagePanels = Array.from(document.querySelectorAll("[data-page-panel]"));
+    const scoreFile = document.querySelector("#scoreFile");
+    const scoreFileName = document.querySelector("#scoreFileName");
+    const scoreViewer = document.querySelector("#scoreViewer");
+    const presetScoreButtons = Array.from(document.querySelectorAll("[data-score-src]"));
+    const focusTitle = document.querySelector("#focusTitle");
+    const focusText = document.querySelector("#focusText");
+    const focusNotes = document.querySelector("#focusNotes");
+    const solfegeStrip = document.querySelector("#solfegeStrip");
+    const planOne = document.querySelector("#planOne");
+    const planTwo = document.querySelector("#planTwo");
+    const planThree = document.querySelector("#planThree");
+
+    function noteLabel(note, lesson) {
+      return lesson.solfege[note] || "";
+    }
+
+    function noteHtml(note, lesson) {
+      const solfege = noteLabel(note, lesson);
+      return `<span class="note-name">${note}</span>${solfege ? `<span class="note-solfege">${solfege}</span>` : ""}`;
+    }
+
+    function renderFingerboard(activeKey) {
+      const lesson = lessons[activeKey];
+      fingerboard.innerHTML = "";
+
+      strings.forEach((string) => {
+        const row = document.createElement("div");
+        row.className = "fingerboard-row";
+
+        const name = document.createElement("div");
+        name.className = "string-name";
+        name.textContent = string.name;
+        row.appendChild(name);
+
+        string.notes.forEach((note) => {
+          const cell = document.createElement("div");
+          const active = lesson.notes.includes(note);
+          const root = lesson.roots.includes(note);
+          cell.className = `note-cell ${active ? "active" : "ghost"} ${root ? "root" : ""}`;
+
+          const dot = document.createElement("span");
+          dot.className = "note-dot";
+          dot.innerHTML = noteHtml(note, lesson);
+          cell.appendChild(dot);
+          row.appendChild(cell);
+        });
+
+        fingerboard.appendChild(row);
+      });
+
+      focusTitle.textContent = lesson.title;
+      focusText.textContent = lesson.text;
+      solfegeStrip.innerHTML = lesson.notes
+        .map((note) => `<span><b>${note}</b>${noteLabel(note, lesson)}</span>`)
+        .join("");
+      focusNotes.innerHTML = lesson.notes
+        .map((note) => `<span>${noteHtml(note, lesson)}</span>`)
+        .join("");
+      planOne.textContent = lesson.plan[0];
+      planTwo.textContent = lesson.plan[1];
+      planThree.textContent = lesson.plan[2];
+    }
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        tabButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        renderFingerboard(button.dataset.scale);
+      });
+    });
+
+    pageTabs.forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.pageTab;
+        pageTabs.forEach((item) => item.classList.toggle("active", item === button));
+        pagePanels.forEach((panel) => {
+          panel.hidden = panel.dataset.pagePanel !== target;
+        });
+      });
+    });
+
+    function showScorePlaceholder(title, message) {
+      scoreViewer.innerHTML = `
+        <div class="score-placeholder">
+          <strong>${title}</strong>
+          ${message}
+        </div>
+      `;
+    }
+
+    function showPresetScore(src, title) {
+      scoreFileName.textContent = title;
+
+      if (src.endsWith(".svg") || src.endsWith(".png") || src.endsWith(".jpg") || src.endsWith(".jpeg") || src.endsWith(".webp")) {
+        scoreViewer.innerHTML = `<img src="${src}" alt="${title}">`;
+        return;
+      }
+
+      fetch(src, { method: "HEAD" })
+        .then((response) => {
+          if (!response.ok) {
+            showScorePlaceholder(title, `尚未找到檔案。請把授權 PDF 放到 <strong>scores/star-wars.pdf</strong>。`);
+            return;
+          }
+          scoreViewer.innerHTML = `<iframe src="${src}" title="${title}"></iframe>`;
+        })
+        .catch(() => {
+          showScorePlaceholder(title, `尚未找到檔案。請把授權 PDF 放到 <strong>scores/star-wars.pdf</strong>。`);
+        });
+    }
+
+    presetScoreButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        showPresetScore(button.dataset.scoreSrc, button.dataset.scoreTitle);
+      });
+    });
+
+    scoreFile.addEventListener("change", () => {
+      const file = scoreFile.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      scoreFileName.textContent = file.name;
+
+      if (file.type.startsWith("image/")) {
+        scoreViewer.innerHTML = `<img src="${url}" alt="樂譜圖片預覽">`;
+      } else {
+        scoreViewer.innerHTML = `<iframe src="${url}" title="樂譜 PDF 預覽"></iframe>`;
+      }
+    });
+
+    const boxes = Array.from(document.querySelectorAll("[data-save]"));
+    const bar = document.querySelector("#bar");
+    const progressText = document.querySelector("#progressText");
+    const reset = document.querySelector("#reset");
+    const keyPrefix = "double-bass-visual-review:";
+
+    function updateProgress() {
+      const done = boxes.filter((box) => box.checked).length;
+      const total = boxes.length;
+      const percent = Math.round((done / total) * 100);
+      bar.style.width = `${percent}%`;
+
+      if (done === 0) {
+        progressText.textContent = "今天還沒開始。先從空弦開始。";
+      } else if (done < total) {
+        progressText.textContent = `已完成 ${done} / ${total} 項。今天只要穩，不用快。`;
+      } else {
+        progressText.textContent = "今日複習完成。明天再回來看指板。";
+      }
+    }
+
+    boxes.forEach((box) => {
+      box.checked = localStorage.getItem(keyPrefix + box.dataset.save) === "true";
+      box.addEventListener("change", () => {
+        localStorage.setItem(keyPrefix + box.dataset.save, String(box.checked));
+        updateProgress();
+      });
+    });
+
+    reset.addEventListener("click", () => {
+      boxes.forEach((box) => {
+        box.checked = false;
+        localStorage.removeItem(keyPrefix + box.dataset.save);
+      });
+      updateProgress();
+    });
+
+    renderFingerboard("open");
+    updateProgress();
+  </script>
+</body>
+</html>
