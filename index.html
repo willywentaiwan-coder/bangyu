@@ -255,34 +255,36 @@
       list-style: none;
     }
     .playlist-track {
-      min-height: 64px;
+      min-height: 96px;
       display: grid;
-      grid-template-columns: 30px minmax(0, 1fr) auto 34px;
-      gap: 7px;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      gap: 8px;
       align-items: center;
-      padding: 8px 10px;
+      padding: 10px;
       border-radius: 15px;
       background: rgba(255,255,255,.08);
       color: #fff;
-      text-decoration: none;
-      transition: background .18s ease, transform .18s ease;
+      transition: background .18s ease;
     }
-    .playlist-track:hover { background: rgba(255,255,255,.15); transform: translateX(2px); }
+    .playlist-track:focus-within,
+    .playlist-track:hover { background: rgba(255,255,255,.13); }
     .track-index { color: rgba(255,255,255,.5); font-size: .76rem; font-weight: 900; }
     .track-info { min-width: 0; }
     .track-title { display: block; overflow: hidden; font-size: .9rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
-    .track-source { display: block; margin-top: 2px; color: rgba(255,255,255,.58); font-size: .7rem; font-weight: 750; }
+    .track-source {
+      display: inline-block;
+      margin-top: 2px;
+      color: rgba(255,255,255,.7);
+      font-size: .7rem;
+      font-weight: 750;
+      text-underline-offset: 3px;
+    }
     .track-duration { color: rgba(255,255,255,.68); font-size: .76rem; font-variant-numeric: tabular-nums; font-weight: 800; }
-    .track-play {
-      width: 34px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--star);
-      color: var(--night);
-      font-size: .72rem;
-      box-shadow: 0 6px 16px rgba(0,0,0,.2);
+    .track-audio {
+      grid-column: 2 / -1;
+      width: 100%;
+      height: 34px;
+      accent-color: var(--star);
     }
     .button {
       display: inline-flex;
@@ -1098,21 +1100,17 @@
               <span class="playlist-count">2 首・線上播放</span>
             </div>
             <ol class="hero-track-list">
-              <li>
-                <a class="playlist-track" href="https://www.mureka.ai/song-detail/M3XDAqjqL9E5KuG3tqcuJe?is_from_share=1" target="_blank" rel="noopener noreferrer" aria-label="到 Mureka 播放小暴龍の冒險でGo!">
+              <li class="playlist-track">
                   <span class="track-index" aria-hidden="true">01</span>
-                  <span class="track-info"><strong class="track-title">小暴龍の冒險でGo!</strong><small class="track-source">Mureka・需要網路 ↗</small></span>
+                  <span class="track-info"><strong class="track-title">小暴龍の冒險でGo!</strong><a class="track-source" href="https://www.mureka.ai/song-detail/M3XDAqjqL9E5KuG3tqcuJe?is_from_share=1" target="_blank" rel="noopener noreferrer">查看 Mureka 來源 ↗</a></span>
                   <span class="track-duration" aria-hidden="true">02:33</span>
-                  <span class="track-play" aria-hidden="true">▶</span>
-                </a>
+                  <audio class="track-audio" controls preload="metadata" controlslist="nodownload" aria-label="在本頁播放：小暴龍の冒險でGo!" src="https://static-cos.mureka.ai/cos-prod/song/basic-audio/20260612/music_143843997581313_DYmAwDZULkwd12vG7fkk91_vrupgn.mp3"></audio>
               </li>
-              <li>
-                <a class="playlist-track" href="https://www.mureka.ai/song-detail/SUcBDe5dMX1SEF9JnrdeUn?is_from_share=1" target="_blank" rel="noopener noreferrer" aria-label="到 Mureka 播放領土邊疆的微行軍">
+              <li class="playlist-track">
                   <span class="track-index" aria-hidden="true">02</span>
-                  <span class="track-info"><strong class="track-title">領土邊疆的微行軍</strong><small class="track-source">Mureka・需要網路 ↗</small></span>
+                  <span class="track-info"><strong class="track-title">領土邊疆的微行軍</strong><a class="track-source" href="https://www.mureka.ai/song-detail/SUcBDe5dMX1SEF9JnrdeUn?is_from_share=1" target="_blank" rel="noopener noreferrer">查看 Mureka 來源 ↗</a></span>
                   <span class="track-duration" aria-hidden="true">03:45</span>
-                  <span class="track-play" aria-hidden="true">▶</span>
-                </a>
+                  <audio class="track-audio" controls preload="metadata" controlslist="nodownload" aria-label="在本頁播放：領土邊疆的微行軍" src="https://static-cos.mureka.ai/cos-prod/song/basic-audio/20260612/music_143844966531074_LwkqLxW3eizKrDB8DAebBd_pmojqr.mp3"></audio>
               </li>
             </ol>
           </div>
@@ -1323,6 +1321,7 @@
       const textToggle = document.getElementById('textToggle');
       const sectionAudio = document.getElementById('sectionAudio');
       const speechButtons = [...document.querySelectorAll('.section-speech')];
+      const playlistAudio = [...document.querySelectorAll('.track-audio')];
       let activeSpeechButton = null;
       let activeSpeechSection = null;
 
@@ -1401,6 +1400,7 @@
           }
 
           stopSectionAudio();
+          playlistAudio.forEach(audio => audio.pause());
           activeSpeechButton = button;
           activeSpeechSection = document.querySelector(button.dataset.section);
           activeSpeechSection?.classList.add('is-reading');
@@ -1417,6 +1417,15 @@
           }
           toast.classList.add('show');
           setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+
+      playlistAudio.forEach(audio => {
+        audio.addEventListener('play', () => {
+          stopSectionAudio();
+          playlistAudio.forEach(otherAudio => {
+            if (otherAudio !== audio) otherAudio.pause();
+          });
         });
       });
 
