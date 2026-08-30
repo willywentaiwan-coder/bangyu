@@ -216,6 +216,74 @@
       gap: 12px;
       margin-top: 32px;
     }
+    .hero-music {
+      max-width: 620px;
+      margin-top: 22px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 22px;
+      background: rgba(5,20,42,.48);
+      box-shadow: 0 16px 36px rgba(0,0,0,.16);
+      backdrop-filter: blur(10px);
+    }
+    .playlist-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 2px 10px;
+    }
+    .hero-music-label {
+      margin: 0;
+      color: var(--star);
+      font-size: .88rem;
+      font-weight: 950;
+      letter-spacing: .04em;
+    }
+    .playlist-count {
+      color: rgba(255,255,255,.62);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+    .hero-track-list {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .playlist-track {
+      min-height: 64px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto 34px;
+      gap: 7px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      text-decoration: none;
+      transition: background .18s ease, transform .18s ease;
+    }
+    .playlist-track:hover { background: rgba(255,255,255,.15); transform: translateX(2px); }
+    .track-index { color: rgba(255,255,255,.5); font-size: .76rem; font-weight: 900; }
+    .track-info { min-width: 0; }
+    .track-title { display: block; overflow: hidden; font-size: .9rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .track-source { display: block; margin-top: 2px; color: rgba(255,255,255,.58); font-size: .7rem; font-weight: 750; }
+    .track-duration { color: rgba(255,255,255,.68); font-size: .76rem; font-variant-numeric: tabular-nums; font-weight: 800; }
+    .track-play {
+      width: 34px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--star);
+      color: var(--night);
+      font-size: .72rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,.2);
+    }
     .button {
       display: inline-flex;
       align-items: center;
@@ -1023,6 +1091,30 @@
           <p class="hero-copy">大家好，我是 Pollux。這個暑假，我拉了低音提琴、練習電影配樂、組裝機器人，也和爸爸媽媽飛到了北海道。準備好跟我一起出發了嗎？</p>
           <div class="hero-actions">
             <a class="button" href="#my-name">開始我的分享 <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-music" aria-labelledby="hero-music-title">
+            <div class="playlist-head">
+              <p class="hero-music-label" id="hero-music-title">♫ 我的音樂播放清單</p>
+              <span class="playlist-count">2 首・線上播放</span>
+            </div>
+            <ol class="hero-track-list">
+              <li>
+                <a class="playlist-track" href="https://www.mureka.ai/song-detail/M3XDAqjqL9E5KuG3tqcuJe?is_from_share=1" target="_blank" rel="noopener noreferrer" aria-label="到 Mureka 播放小暴龍の冒險でGo!">
+                  <span class="track-index" aria-hidden="true">01</span>
+                  <span class="track-info"><strong class="track-title">小暴龍の冒險でGo!</strong><small class="track-source">Mureka・需要網路 ↗</small></span>
+                  <span class="track-duration" aria-hidden="true">02:33</span>
+                  <span class="track-play" aria-hidden="true">▶</span>
+                </a>
+              </li>
+              <li>
+                <a class="playlist-track" href="https://www.mureka.ai/song-detail/SUcBDe5dMX1SEF9JnrdeUn?is_from_share=1" target="_blank" rel="noopener noreferrer" aria-label="到 Mureka 播放領土邊疆的微行軍">
+                  <span class="track-index" aria-hidden="true">02</span>
+                  <span class="track-info"><strong class="track-title">領土邊疆的微行軍</strong><small class="track-source">Mureka・需要網路 ↗</small></span>
+                  <span class="track-duration" aria-hidden="true">03:45</span>
+                  <span class="track-play" aria-hidden="true">▶</span>
+                </a>
+              </li>
+            </ol>
           </div>
         </div>
         <figure class="hero-photo">
